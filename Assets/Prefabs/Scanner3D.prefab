@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1828098128006606394}
   m_Layer: 0
   m_Name: Scanner3D
-  m_TagString: Untagged
+  m_TagString: playerScanner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

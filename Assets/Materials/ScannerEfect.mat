@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Scanner
+  m_Name: ScannerEfect
   m_Shader: {fileID: -6465566751694194690, guid: 3ab159a93445bd94a822197dc563277e, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -49,7 +49,7 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Range: 0.8
+    - _Range: 0.3
     m_Colors:
-    - _Color: {r: 1, g: 0.9859852, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
