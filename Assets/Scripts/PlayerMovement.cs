@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform player;
     private GameObject activeScanner;
     public float rotationSpeed;
-    //public float xRotacion;
+    public float xRotacion;
 
     void Start()
     {
@@ -23,8 +23,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Move();
         Scan();
-        //CameraMove();
-        RotarPersonaje();
+        // Funcion final, falta pulir CameraMove();
+       RotarPersonaje(); // Funcion provicional para pruebas
     }
 
     public void Move()
@@ -45,13 +45,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void CameraMove()    
     {
-        float xRotacion = 0;
         float mouseX = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
-        player.Rotate(Vector3.up *mouseX);
+
         xRotacion -= mouseY;
-        xRotacion = Mathf.Clamp(xRotacion, 0, 180);
+        xRotacion = Mathf.Clamp(xRotacion, -90, 90);
+
         transform.localRotation = Quaternion.Euler(xRotacion, 0, 0);
+
+        player.Rotate(Vector3.up * mouseX);
+        print(xRotacion);
     }
 
     void RotarPersonaje()

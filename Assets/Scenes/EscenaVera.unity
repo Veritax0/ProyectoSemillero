@@ -1160,7 +1160,7 @@ MonoBehaviour:
   velocidad: 5
   scanner: {fileID: 1828098128006606399, guid: ad07e3963d3e72a4e80ad900f941349b, type: 3}
   player: {fileID: 1236274933}
-  rotationSpeed: 180
+  rotationSpeed: 60
 --- !u!1 &2041484443
 GameObject:
   m_ObjectHideFlags: 0
