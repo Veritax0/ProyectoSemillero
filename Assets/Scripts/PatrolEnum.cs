@@ -1,3 +1,3 @@
 public enum PatrolEnum {
-    GUARD, CHASE
+    GUARD, CHASE, ATTACK
 }
