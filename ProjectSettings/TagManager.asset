@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Blade
+  - Pointer
+  - Gun
   layers:
   - Default
   - TransparentFX

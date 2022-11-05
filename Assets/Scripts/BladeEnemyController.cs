@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class BladeEnemyController : MonoBehaviour{
     public List<Transform> points;
@@ -12,13 +14,16 @@ public class BladeEnemyController : MonoBehaviour{
     private NavMeshAgent _agent;
     private int _currentPosition;
     private float _distance;
-    private PatrolEnum _status = PatrolEnum.GUARD;
+    private EnemyStateEnum _status = EnemyStateEnum.GUARD;
     private bool _changeDestination;
     public float attackDistance = 1.5f;
     private bool _attacking;
     private GameObject _blade;
     private Animator _animator;
-    private static readonly int Attack1 = Animator.StringToHash("attack");
+    
+    private RaycastHit _hit;
+    public float chaseDistance = 10f;
+    private bool _isHit;
 
     private void Start()
     {
@@ -37,30 +42,27 @@ public class BladeEnemyController : MonoBehaviour{
     {
         switch (_status)
         {
-            case PatrolEnum.GUARD:
+            case EnemyStateEnum.GUARD:
                 Guard();
                 break;
-            case PatrolEnum.CHASE:
+            case EnemyStateEnum.CHASE:
                 Chase();
                 break;
-            case PatrolEnum.ATTACK:
+            case EnemyStateEnum.ATTACK:
                 StartCoroutine(Attack());
                 break;
         }
     }
 
-    private IEnumerator Attack()
-    {
-        _blade.SetActive(true);
-        _agent.SetDestination(transform.position);
-        _animator.SetBool(Attack1, true);
-        yield return new WaitForSeconds(0.5f);
-        _status = PatrolEnum.GUARD;
-        _animator.SetBool(Attack1, false);
-    }
-    
     private void Guard()
     {
+        if (_isHit)
+        {
+            if (_hit.transform.gameObject.CompareTag("Player")){
+                        _status = EnemyStateEnum.CHASE;
+                        return;
+                    }
+        }
         _blade.SetActive(false);
         _distance = Vector3.Distance(transform.position, points[_currentPosition].position);
         if (!_changeDestination && _distance < minDistance)
@@ -75,45 +77,68 @@ public class BladeEnemyController : MonoBehaviour{
 
     private void Chase()
     {
-        _blade.SetActive(false);
-        _agent.SetDestination(objective.transform.position);
-        if (transform.position == objective.transform.position)
+        switch (_isHit)
         {
-            _status = PatrolEnum.GUARD;
+            case false:
+                _status = EnemyStateEnum.GUARD;
+                _agent.SetDestination(points[_currentPosition].position);
+                return;
+            case true when !_hit.transform.gameObject.CompareTag("Player"):
+                _status = EnemyStateEnum.GUARD;
+                _agent.SetDestination(points[_currentPosition].position);
+                return;
+            case true:
+                _blade.SetActive(false);
+                Vector3 objPos = objective.transform.position;
+                _agent.SetDestination(objPos);
+                float distance = Vector3.Distance(transform.position,objPos);
+                if (distance <= minDistance)
+                {
+                    _status = EnemyStateEnum.GUARD;
+                }
+                float objDistance = Vector3.Distance(transform.position, objPos);
+                if (objDistance < attackDistance)
+                {
+                    _status = EnemyStateEnum.ATTACK;
+                }
+                break;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player")){
-            _status = PatrolEnum.CHASE;
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        float colliderDistance = Vector3.Distance(transform.position, other.transform.position);
-        if (colliderDistance < attackDistance)
-        {
-            _status = PatrolEnum.ATTACK;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            _status = PatrolEnum.GUARD;
-            _agent.SetDestination(points[_currentPosition].position);
-        }
-    }
-
-    IEnumerator WaitAndChange()
+    private IEnumerator WaitAndChange()
     {
         _changeDestination = true;
         yield return new WaitForSeconds(Random.Range(1f, 3f));
         _currentPosition = _currentPosition < points.Count - 1 ? _currentPosition + 1 : 0;
         _agent.SetDestination(points[_currentPosition].position);
         _changeDestination = false;
+    }
+    private IEnumerator Attack()
+    {
+        _blade.SetActive(true);
+        _agent.SetDestination(transform.position);
+        _animator.SetBool("attack", true);
+        yield return new WaitForSeconds(0.6f);
+        _status = EnemyStateEnum.GUARD;
+        _animator.SetBool("attack", false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 objPos = objective.transform.position;
+        Vector3 direction = Vector3.Normalize(objPos - transform.position);
+
+        _isHit = Physics.SphereCast(transform.position, transform.lossyScale.x / 2, 
+            direction, out _hit, chaseDistance);
+        if (_isHit)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(transform.position, direction * _hit.distance);
+        }
+        else
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(transform.position, direction * chaseDistance);
+        }
     }
 }

@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Blade"))
         {
-            Debug.Log("Entró el cuchillo");
             Die();
         }
     }
