@@ -8,6 +8,7 @@ TagManager:
   - Blade
   - Pointer
   - Gun
+  - Bullet
   layers:
   - Default
   - TransparentFX

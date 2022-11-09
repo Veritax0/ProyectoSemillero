@@ -1,3 +1,3 @@
 public enum EnemyStateEnum {
-    GUARD, CHASE, ATTACK, AIMFIRE
+    GUARD, CHASE, ATTACK, AIMANDSHOOT
 }

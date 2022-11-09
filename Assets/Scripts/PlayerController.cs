@@ -7,6 +7,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Material died;
+    public Material alive;
+    public bool isDead;
     private Collider _collider;
     private Renderer _rend;
     // Start is called before the first frame update
@@ -19,7 +21,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isDead)
+        {
+            Die();
+        }
+        else
+        {
+            Live();
+        }
+    }
+
+    private void Live()
+    {
+        _rend.sharedMaterial = alive;
+        _collider.enabled = true;
     }
 
     public void Die()
@@ -30,9 +45,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Blade"))
+        if ( other.CompareTag("Blade") || other.CompareTag("Bullet") )
         {
-            Die();
+            isDead = true;
         }
     }
 }

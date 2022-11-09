@@ -1,29 +1,31 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class BladeEnemyController : MonoBehaviour{
+    
+    [Header("Guard config")]
     public List<Transform> points;
     public PlayerController objective;
-    public float minDistance;
-    private NavMeshAgent _agent;
-    private int _currentPosition;
-    private float _distance;
-    private EnemyStateEnum _status = EnemyStateEnum.GUARD;
-    private bool _changeDestination;
+    public float minDistanceToChangePoint;
+    
+    [Header("Atack config")]
     public float attackDistance = 1.5f;
-    private bool _attacking;
+    public float chaseDistance = 10f;
+    
+    private EnemyStateEnum _status = EnemyStateEnum.GUARD;
+    private NavMeshAgent _agent;
     private GameObject _blade;
     private Animator _animator;
-    
     private RaycastHit _hit;
-    public float chaseDistance = 10f;
+    private int _currentPosition;
+    private float _distance;
+    private bool _changeDestination;
+    private bool _attacking;
     private bool _isHit;
+    private static readonly int Attack1 = Animator.StringToHash("attack");
 
     private void Start()
     {
@@ -61,11 +63,11 @@ public class BladeEnemyController : MonoBehaviour{
             if (_hit.transform.gameObject.CompareTag("Player")){
                         _status = EnemyStateEnum.CHASE;
                         return;
-                    }
+            }
         }
         _blade.SetActive(false);
         _distance = Vector3.Distance(transform.position, points[_currentPosition].position);
-        if (!_changeDestination && _distance < minDistance)
+        if (!_changeDestination && _distance < minDistanceToChangePoint)
         {
             StartCoroutine(WaitAndChange());
         }
@@ -92,7 +94,7 @@ public class BladeEnemyController : MonoBehaviour{
                 Vector3 objPos = objective.transform.position;
                 _agent.SetDestination(objPos);
                 float distance = Vector3.Distance(transform.position,objPos);
-                if (distance <= minDistance)
+                if (distance <= minDistanceToChangePoint)
                 {
                     _status = EnemyStateEnum.GUARD;
                 }
@@ -117,28 +119,29 @@ public class BladeEnemyController : MonoBehaviour{
     {
         _blade.SetActive(true);
         _agent.SetDestination(transform.position);
-        _animator.SetBool("attack", true);
-        yield return new WaitForSeconds(0.6f);
+        _animator.SetBool(Attack1, true);
+        yield return new WaitForSeconds(0.7f);
         _status = EnemyStateEnum.GUARD;
-        _animator.SetBool("attack", false);
+        _animator.SetBool(Attack1, false);
     }
 
     private void OnDrawGizmos()
     {
         Vector3 objPos = objective.transform.position;
-        Vector3 direction = Vector3.Normalize(objPos - transform.position);
+        Vector3 position = transform.position;
+        Vector3 direction = Vector3.Normalize(objPos - position);
 
-        _isHit = Physics.SphereCast(transform.position, transform.lossyScale.x / 2, 
+        _isHit = Physics.SphereCast(position, transform.lossyScale.x / 2, 
             direction, out _hit, chaseDistance);
         if (_isHit)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, direction * _hit.distance);
+            Gizmos.DrawRay(position, direction * _hit.distance);
         }
         else
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawRay(transform.position, direction * chaseDistance);
+            Gizmos.DrawRay(position, direction * chaseDistance);
         }
     }
 }

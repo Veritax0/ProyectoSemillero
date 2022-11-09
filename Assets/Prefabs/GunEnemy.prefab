@@ -235,13 +235,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d0e5c6cbd9830d4da3507ab561ae379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistance: 0
   points: []
-  objective: {fileID: 0}
-  attackDistance: 10
+  minDistanceToChangePoint: 0.2
   pointer: {fileID: 4559007307995625405}
   bulletGen: {fileID: 5616133090765363790}
   bullet: {fileID: 5872919267339666250, guid: 6f01ca5792486c24a943ad0fde754851, type: 3}
+  objective: {fileID: 0}
+  aimTime: 0.7
+  aimDistance: 19
+  attackDistance: 10
 --- !u!1 &5213493321290906005
 GameObject:
   m_ObjectHideFlags: 0

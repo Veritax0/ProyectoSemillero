@@ -2,33 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 
 public class GunEnemyController : MonoBehaviour
 {  
-    public float minDistance;
+    [Header("Guard config")]
     public List<Transform> points;
-    public PlayerController objective;
-    public float attackDistance = 10f;
+    public float minDistanceToChangePoint;
+    
+    [Header("Gun config")]
     public Transform pointer;
     public Transform bulletGen;
     public GameObject bullet;
     
+    [Header("Attack config")]
+    public PlayerController objective;
+    public float aimTime;
+    public float aimDistance;
+    public float attackDistance = 10f;
+    
     private EnemyStateEnum _status = EnemyStateEnum.GUARD;
-    private float _distance;
-    private int _currentPosition;
-    private NavMeshAgent _agent;
-    private bool _changeDestination;
-    private bool _isHit;
     private RaycastHit _hit;
     private Animator _animator;
-    private bool _isAimWalk;
+    private NavMeshAgent _agent;
     private Coroutine _aimWalkCor;
+    private Coroutine _aimAroundCor;
+    private float _distanceToObjective;
+    private float _distanceToNextPoint;
+    private int _currentPosition;
+    private bool _changeDestination;
+    private bool _isAimWalk;
+    private bool _isHit;
     private bool _isAim;
-    private float aimDistance;
+    private static readonly int Aim1 = Animator.StringToHash("Aim");
 
-    //Estados: Guardia, apuntar (por unos segundos) y disparar
-    // Start is called before the first frame update
+    
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -41,6 +48,10 @@ public class GunEnemyController : MonoBehaviour
     void Update()
     {
         CheckStatus();
+        if (_isHit)
+        {
+            Debug.Log(_hit.transform.tag);
+        }
     }
     
     private void CheckStatus()
@@ -53,7 +64,7 @@ public class GunEnemyController : MonoBehaviour
             case EnemyStateEnum.CHASE:
                 Chase();
                 break;
-            case EnemyStateEnum.AIMFIRE:
+            case EnemyStateEnum.AIMANDSHOOT:
                 Aim();
                 break;
         }
@@ -63,7 +74,7 @@ public class GunEnemyController : MonoBehaviour
     {
         if (!_isAim)
         {
-            StartCoroutine(AimAndFire());
+            StartCoroutine(AimAndShoot());
         }
     }
 
@@ -72,7 +83,9 @@ public class GunEnemyController : MonoBehaviour
         if (_isHit)
         {
             if (_hit.transform.gameObject.CompareTag("Player")){
-                _status = EnemyStateEnum.CHASE;
+                StopCoroutine(_aimWalkCor);
+                StopCoroutine(_aimAroundCor);
+                ChangeStatus(EnemyStateEnum.CHASE);
                 return;
             }
         }
@@ -80,11 +93,11 @@ public class GunEnemyController : MonoBehaviour
         {
             _aimWalkCor = StartCoroutine(AimWalking());
         }
-        _distance = Vector3.Distance(transform.position, points[_currentPosition].position);
-        if (!_changeDestination && _distance < minDistance)
+        _distanceToNextPoint = Vector3.Distance(transform.position, points[_currentPosition].position);
+        if (!_changeDestination && _distanceToNextPoint < minDistanceToChangePoint)
         {
             StopCoroutine(_aimWalkCor);
-            StartCoroutine(WaitAndChange());
+            _aimAroundCor = StartCoroutine(AimAround());
         }
         else
         {
@@ -94,40 +107,35 @@ public class GunEnemyController : MonoBehaviour
     
     private void Chase()
     {
-        _isHit = Physics.SphereCast(bulletGen.position, transform.lossyScale.x / 2, 
-            objective.transform.position, out _hit, aimDistance);
-        if (_isHit)
+        Vector3 pos = transform.position;
+        Vector3 direction = Vector3.Normalize(objective.transform.position - pos);
+        _isHit =  Physics.SphereCast(pos, transform.lossyScale.x / 2, 
+            direction, out _hit, aimDistance);
+       if (_isHit)
         {
             if (!_hit.transform.gameObject.CompareTag("Player")){
-                _status = EnemyStateEnum.GUARD;
+                ChangeStatus(EnemyStateEnum.GUARD);
                 return;
             }
             Vector3 objPos = objective.transform.position;
             _agent.SetDestination(objPos);
-            float distance = Vector3.Distance(transform.position,objPos);
-            if (distance <= attackDistance)
-            {
-                _status = EnemyStateEnum.AIMFIRE;
-            }
-            else
-            {
-                _status = EnemyStateEnum.CHASE;
-            }
+            _distanceToObjective = Vector3.Distance(transform.position,objPos);
+            ChangeStatus(_distanceToObjective <= attackDistance ? EnemyStateEnum.AIMANDSHOOT : EnemyStateEnum.CHASE);
         }
         else
         {
-            _status = EnemyStateEnum.GUARD;
+            ChangeStatus(EnemyStateEnum.GUARD);
         }
     }
     
-    private IEnumerator WaitAndChange()
+    private IEnumerator AimAround()
     {
         _changeDestination = true;
-        _animator.SetInteger("Aim", 0);
+        _animator.SetInteger(Aim1, 0);
         yield return new WaitForFixedUpdate();
-        _animator.SetInteger("Aim", 1);
+        _animator.SetInteger(Aim1, 1);
         yield return new WaitForSeconds(3.7f);
-        _animator.SetInteger("Aim", 0);
+        _animator.SetInteger(Aim1, 0);
         _currentPosition = _currentPosition < points.Count - 1 ? _currentPosition + 1 : 0;
         _agent.SetDestination(points[_currentPosition].position);
         _changeDestination = false;
@@ -137,28 +145,30 @@ public class GunEnemyController : MonoBehaviour
     private IEnumerator AimWalking()
     {
         _isAimWalk = true;
-        _animator.SetInteger("Aim", 2);
+        _animator.SetInteger(Aim1, 2);
         yield return new WaitForSeconds(Random.Range(2f, 3f));
-        _animator.SetInteger("Aim", 0);
+        _animator.SetInteger(Aim1, 0);
         _isAimWalk = false;
     }
     
-    private IEnumerator AimAndFire()
+    private IEnumerator AimAndShoot()
     {
         _isAim = true;
         _agent.SetDestination(transform.position);
-        Vector3 aim = objective.transform.position;
-        yield return new WaitForSeconds(1);
-        Fire(aim);
-        _isAim = false;
+        yield return new WaitForSeconds(aimTime);
+        Shoot();
+        ChangeStatus(EnemyStateEnum.GUARD);
     }
 
-    private void Fire(Vector3 aim)
+    private void Shoot()
     {
         GameObject bulletInstantiate = Instantiate(bullet, bulletGen);
-        Vector3 dir = Vector3.Normalize(pointer.position - bulletInstantiate.transform.position);
+        Vector3 dir = Vector3.Normalize(pointer.position - bulletGen.position);
         float force = 20;
-        bulletInstantiate.GetComponent<Rigidbody>().AddForce(dir * force,ForceMode.Impulse);
+        Rigidbody rb = bulletInstantiate.GetComponent<Rigidbody>();
+        bulletInstantiate.transform.SetParent(null);
+        rb.AddForce(dir * force,ForceMode.Impulse);
+        Destroy(bulletInstantiate, 3);
     }
     
     private void OnDrawGizmos()
@@ -171,10 +181,7 @@ public class GunEnemyController : MonoBehaviour
             direction, out _hit, aimDistance);
         if (_isHit)
         {
-            if(_hit.transform.CompareTag("Pointer"))Gizmos.color = Color.yellow;
-            else Gizmos.color = Color.red;
-            Debug.Log("hit: " + _hit.transform.position);
-            
+            Gizmos.color = Color.red;
             Gizmos.DrawRay(bulletGenPos, direction * aimDistance);
         }
         else
@@ -182,13 +189,14 @@ public class GunEnemyController : MonoBehaviour
             Gizmos.color = Color.green;
             Gizmos.DrawRay(bulletGenPos, direction * aimDistance);
         }
+    }
 
-        if (_isHit)
-        {
-            if (_hit.transform.CompareTag("Player"))
-            {
-                Debug.Log("hit jugador  ");
-            }
-        }
+    private void ChangeStatus(EnemyStateEnum state)
+    {
+        _status = state;
+        _animator.SetInteger(Aim1, 0);
+        _isAim = false;
+        _isAimWalk = false;
+        _changeDestination = false;
     }
 }
