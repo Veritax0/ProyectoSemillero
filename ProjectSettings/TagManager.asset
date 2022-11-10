@@ -9,6 +9,7 @@ TagManager:
   - Pointer
   - Gun
   - Bullet
+  - playerScanner
   layers:
   - Default
   - TransparentFX
