@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private GameObject activeScanner;
     public float rotationSpeed;
     public float xRotacion;
+    public float yRotacion;
 
     void Start()
     {
@@ -23,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Move();
         Scan();
-        // Funcion final, falta pulir CameraMove();
-       RotarPersonaje(); // Funcion provicional para pruebas
+        CameraMove();
+        //RotarPersonaje(); // Funcion provicional para pruebas
     }
 
     public void Move()
@@ -48,13 +49,15 @@ public class PlayerMovement : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
 
+        yRotacion += mouseX;
         xRotacion -= mouseY;
         xRotacion = Mathf.Clamp(xRotacion, -90, 90);
 
         transform.localRotation = Quaternion.Euler(xRotacion, 0, 0);
+        transform.localRotation = Quaternion.Euler(0, yRotacion, 0);
 
-        player.Rotate(Vector3.up * mouseX);
-        print(xRotacion);
+        //player.Rotate(Vector3.up * mouseX);
+        //print(mouseX);
     }
 
     void RotarPersonaje()
