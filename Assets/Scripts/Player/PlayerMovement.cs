@@ -13,13 +13,11 @@ namespace Player
         private float _verticalInput;
         private Vector3 _moveDirection;
         private Rigidbody _rb;
-        private CharacterController _character;
 
         private void Start()
         {
             _rb = GetComponent<Rigidbody>();
             _rb.freezeRotation = true;
-            _character = GetComponent<CharacterController>();
         }
 
         private void Update()
@@ -41,7 +39,7 @@ namespace Player
         private void MovePlayer()
         {
             _moveDirection = orientation.forward * _verticalInput + orientation.right * _horizontalInput;
-            _character.Move(_moveDirection * (moveSpeed * Time.deltaTime));
+            _rb.AddForce(_moveDirection.normalized * (moveSpeed * 10f), ForceMode.Force);
         }
     }
 }

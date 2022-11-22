@@ -5,6 +5,7 @@ public class SonarSpawner : MonoBehaviour
 {
     public GameObject scanner;
     public Transform player;
+    [Range(0.3f,2)]
     public float sonarTimeInterval;
     
     private GameObject _activeScanner;

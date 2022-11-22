@@ -7,6 +7,8 @@ namespace Player
     {
         public float sensX;
         public float sensY;
+        [Range(0,70)]
+        public float amplitudeY;
 
         public Transform orientation;
 
@@ -27,7 +29,7 @@ namespace Player
 
             _yRotation += mouseX;
             _xRotation -= mouseY;
-            _xRotation = Math.Clamp(_xRotation, -90f, 90f);
+            _xRotation = Math.Clamp(_xRotation, -amplitudeY, amplitudeY);
             
             //Rotate cam and orientation
             transform.rotation = Quaternion.Euler(_xRotation, _yRotation, 0);
