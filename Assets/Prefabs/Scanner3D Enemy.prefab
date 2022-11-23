@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1828098128006606395}
   - component: {fileID: 1828098128006606392}
   - component: {fileID: 1828098128006606393}
-  - component: {fileID: 1828098128006606394}
+  - component: {fileID: 1074420389129272976}
   m_Layer: 0
-  m_Name: Scanner3D
+  m_Name: Scanner3D Enemy
   m_TagString: playerScanner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d5e998e1cbd2be54493fb54e377effc2, type: 2}
+  - {fileID: 2100000, guid: fd1cca712227bd0468bb4c20584178aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1828098128006606394
+--- !u!114 &1074420389129272976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,10 +93,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1828098128006606399}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 656e1d8fdaeb8a047ae58c466cd65965, type: 3}
+  m_Script: {fileID: 11500000, guid: 42123a122a7097e4b802acfa9be6abc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  delayEndTime: 6
-  objective: {fileID: 4188956377296970044, guid: d633c6089388f1b48a0692a942a7566a, type: 3}
-  scanner: {fileID: 1828098128006606399, guid: 66354af2198b25f41aaf47db8cf40a59, type: 3}
+  speed: 3
+  delayEndTime: 5

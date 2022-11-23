@@ -7,7 +7,9 @@ public class ScannerController : MonoBehaviour
 {
     public float speed;
     public float delayEndTime;
-    public TagField objetivo;
+    public GameObject objective;
+    public GameObject scanner;
+    private GameObject activeScanner;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,5 +26,19 @@ public class ScannerController : MonoBehaviour
 
     private void endScanner(){
         Destroy(this.gameObject, delayEndTime);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Transform pos = objective.transform;
+        if (collision.gameObject.CompareTag(objective.tag))
+        {
+            Scan(pos);
+        }
+    }
+
+    public void Scan(Transform obj)
+    {
+        activeScanner = Instantiate(scanner, obj);
     }
 }
