@@ -11,7 +11,7 @@ namespace Enemies.BladeEnemy
         public float minDistanceToChangePoint;
     
         [Header("Atack config")]
-        public PlayerController objective;
+        public GameObject objective;
         public float attackDistance = 1.5f;
         public float chaseDistance = 10f;
     

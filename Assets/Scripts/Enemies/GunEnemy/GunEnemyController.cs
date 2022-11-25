@@ -17,7 +17,7 @@ namespace Enemies.GunEnemy
         public GameObject bullet; //Attack
     
         [Header("Attack config")]
-        public PlayerController objective;//Chase
+        public GameObject objective;//Chase
         public float aimTime; //Attack
         public float aimDistance; //Chase
         public float shootDistance = 10f; //Chase

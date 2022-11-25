@@ -6,7 +6,7 @@ namespace Enemies.BladeEnemy
 {
     public class BladeEnemyChaseState: MonoBehaviour, IEnemyState
     {
-        private PlayerController _objective;
+        private GameObject _objective;
         private float _attackDistance;
     
         private NavMeshAgent _agent; //Todos

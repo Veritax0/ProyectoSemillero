@@ -11,7 +11,7 @@ namespace Enemies.GunEnemy
         private NavMeshAgent _agent;
         private GunEnemyController _context;
         
-        private PlayerController _objective;
+        private GameObject _objective;
         private float _aimDistance;
         private float _shootDistance;
         private float _distanceToObjective;
