@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 1828098128006606392}
   - component: {fileID: 1828098128006606393}
   - component: {fileID: 1828098128006606394}
-  - component: {fileID: 6534233751944751748}
   m_Layer: 0
-  m_Name: Scanner3D
+  m_Name: ScannerEnemy
   m_TagString: playerScanner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d5e998e1cbd2be54493fb54e377effc2, type: 2}
+  - {fileID: 2100000, guid: fdb1327431efe2c4990f968f29f83f29, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,18 +96,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 656e1d8fdaeb8a047ae58c466cd65965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  delayEndTime: 6
---- !u!135 &6534233751944751748
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828098128006606399}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Center: {x: 0, y: 0, z: 0}
+  speed: 1
+  delayEndTime: 2

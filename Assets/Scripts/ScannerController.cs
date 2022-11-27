@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class ScannerController : MonoBehaviour
 {
     public float speed;
     public float delayEndTime;
+    public TagField objetivo;
     // Start is called before the first frame update
     void Start()
     {
