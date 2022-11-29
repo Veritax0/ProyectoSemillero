@@ -1157,12 +1157,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae1f287d0ef3b04794250ba8cfb33fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidad: 5
   scanner: {fileID: 1828098128006606399, guid: ad07e3963d3e72a4e80ad900f941349b, type: 3}
   player: {fileID: 1236274933}
-  rotationSpeed: 90
-  xRotacion: 0
-  yRotacion: 0
+  sonarTimeInterval: 0
 --- !u!1 &1794038773
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,7 +1224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 756e6ff7868999149954fa997cd1945b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanner: {fileID: 1828098128006606399, guid: a03feb61b91b67141bede87d57cf1a27, type: 3}
+  scanner: {fileID: 1828098128006606399, guid: 3509a50c3ed58b6439a4e474f294e291, type: 3}
   position: {fileID: 1794038780}
 --- !u!136 &1794038777
 CapsuleCollider:
