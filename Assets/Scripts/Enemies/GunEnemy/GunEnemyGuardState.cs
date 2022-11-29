@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -31,8 +30,8 @@ namespace Enemies.GunEnemy
                 _minDistanceToChangePoint = _context.minDistanceToChangePoint;
                 _agent = _context.Agent;
                 _animator = _context.Animator;
-                _aimAroundCor = StartCoroutine(voidCor());
-                _aimWalkCor = StartCoroutine(voidCor());
+                _aimAroundCor = StartCoroutine(VoidCor());
+                _aimWalkCor = StartCoroutine(VoidCor());
             }
             catch (Exception e)
             {
@@ -90,7 +89,7 @@ namespace Enemies.GunEnemy
             _isAimWalk = false;
         }
 
-        private IEnumerator voidCor()
+        private IEnumerator VoidCor()
         {
             yield return new WaitForEndOfFrame();
         } 
