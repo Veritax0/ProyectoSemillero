@@ -13,12 +13,12 @@ public class SonarSpawner : MonoBehaviour
 
     void Update()
     {
-        Scan();
+        //Scan();
     }
 
-    private void Scan()
+    public void Scan()
     {
-        if (!_isSpawn && Input.GetKey(KeyCode.Space))
+        if (!_isSpawn)
         {
             StartCoroutine(SpawnSonar());
         }

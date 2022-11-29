@@ -214,7 +214,7 @@ MonoBehaviour:
   objective: {fileID: 0}
   aimTime: 0.7
   aimDistance: 19
-  attackDistance: 10
+  shootDistance: 10
 --- !u!1 &5213493321290906005
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +226,6 @@ GameObject:
   - component: {fileID: 4559007307995625405}
   - component: {fileID: 7591788569316825364}
   - component: {fileID: 944252174605657752}
-  - component: {fileID: 2824003191265082043}
   m_Layer: 0
   m_Name: Pointer
   m_TagString: Untagged
@@ -277,7 +276,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0c97735596eded644922c3785513e593, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -299,19 +298,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2824003191265082043
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5213493321290906005}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5820826816652695771
 GameObject:
   m_ObjectHideFlags: 0

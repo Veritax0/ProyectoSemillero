@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +12,7 @@ namespace Enemies.BladeEnemy
         public float minDistanceToChangePoint;
     
         [Header("Atack config")]
-        public PlayerController objective;
+        public GameObject objective;
         public float attackDistance = 1.5f;
         public float chaseDistance = 10f;
     
@@ -22,12 +23,9 @@ namespace Enemies.BladeEnemy
         internal GameObject Blade;
         internal Animator Animator;
 
-        /*private IEnemyState _state;
-    internal IEnemyState GuardState;
-    internal IEnemyState ChaseState;
-    internal IEnemyState AttackState;*/
-    
-
+        private PlayerMovement _playerMovement;
+        private const float PlayerRunningFactor = 1.2f;
+        private const float PlayerSquattingFactor  = 0.8f;
         void Start()
         {
             Agent = GetComponent<NavMeshAgent>();
@@ -40,6 +38,8 @@ namespace Enemies.BladeEnemy
             AttackState = gameObject.AddComponent<BladeEnemyAttackState>();
             AttackState.SetContext(this);
             State = GuardState;
+
+            _playerMovement = objective.GetComponent<PlayerMovement>();
         }
         void Update()
         {
@@ -54,11 +54,32 @@ namespace Enemies.BladeEnemy
         private void OnDrawGizmos()
         {
             Vector3 objPos = objective.transform.position;
+            objPos.y += 0.5f;
             Vector3 position = transform.position;
+            position.y = 1.5f;
             Vector3 direction = Vector3.Normalize(objPos - position);
 
+            float factor = 1;
+            if (_playerMovement != null)
+            {
+                switch (_playerMovement.GetMovStatus())
+                {
+                    case PlayerMoveStatus.Squatting: 
+                        factor = PlayerSquattingFactor;
+                        break;
+                    case PlayerMoveStatus.Running :
+                        factor = PlayerRunningFactor;
+                        break;
+                    default:
+                        factor = 1;
+                        break;
+                }
+            }
+            
+            float distance = chaseDistance * factor;
+            
             IsHit = Physics.SphereCast(position, transform.lossyScale.x / 2, 
-                direction, out Hit, chaseDistance);
+                direction, out Hit, distance);
             if (IsHit)
             {
                 Gizmos.color = Color.red;
@@ -67,7 +88,7 @@ namespace Enemies.BladeEnemy
             else
             {
                 Gizmos.color = Color.green;
-                Gizmos.DrawRay(position, direction * chaseDistance);
+                Gizmos.DrawRay(position, direction * distance);
             }
         }
     }

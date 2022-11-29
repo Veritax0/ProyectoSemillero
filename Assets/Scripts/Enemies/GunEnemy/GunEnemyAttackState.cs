@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Enemies.BladeEnemy;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,21 +9,21 @@ namespace Enemies.GunEnemy
     {
         private NavMeshAgent _agent;
         private GunEnemyController _context;
-        private Transform pointer;
-        private Transform bulletGen;
-        private GameObject bullet;
+        private Transform _pointer;
+        private Transform _bulletGen;
+        private GameObject _bullet;
         private bool _isAim;
-        public float aimTime;
+        private float _aimTime;
         public void SetContext(EnemyController context)
         {
             try
             {
                 _context = (GunEnemyController) context;
                 _agent = _context.Agent;
-                pointer = _context.pointer;
-                bulletGen = _context.bulletGen;
-                bullet = _context.bullet;
-                
+                _pointer = _context.pointer;
+                _bulletGen = _context.bulletGen;
+                _bullet = _context.bullet;
+                _aimTime = _context.aimTime;
             }
             catch (Exception e)
             {
@@ -44,16 +43,17 @@ namespace Enemies.GunEnemy
         {
             _isAim = true;
             _agent.SetDestination(transform.position);
-            yield return new WaitForSeconds(aimTime);
+            yield return new WaitForSeconds(_aimTime);
             Shoot();
             _context.ChangeState(_context.GuardState);
             _isAim = false;
         }
         
+        // ReSharper disable Unity.PerformanceAnalysis
         private void Shoot()
         {
-            GameObject bulletInstantiate = Instantiate(bullet, bulletGen);
-            Vector3 dir = Vector3.Normalize(pointer.position - bulletGen.position);
+            GameObject bulletInstantiate = Instantiate(_bullet, _bulletGen);
+            Vector3 dir = Vector3.Normalize(_pointer.position - _bulletGen.position);
             float force = 20;
             Rigidbody rb = bulletInstantiate.GetComponent<Rigidbody>();
             bulletInstantiate.transform.SetParent(null);

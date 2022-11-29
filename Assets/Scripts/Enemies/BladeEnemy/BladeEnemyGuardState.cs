@@ -35,7 +35,9 @@ namespace Enemies.BladeEnemy
 
         public void Execute()
         {
-            _agent.SetDestination(_points[_currentPosition].position);
+            Vector3 currentDestination = _points[_currentPosition].position;
+            currentDestination.y = transform.position.y;
+            _agent.SetDestination(currentDestination);
             if (_context.IsHit)
             {
                 if (_context.Hit.transform.gameObject.CompareTag("Player")){
@@ -43,7 +45,7 @@ namespace Enemies.BladeEnemy
                     return;
                 }
             }
-            _distanceToNextPoint = Vector3.Distance(transform.position, _points[_currentPosition].position);
+            _distanceToNextPoint = Vector3.Distance(transform.position, currentDestination);
             if (!_changeDestination && _distanceToNextPoint < _minDistanceToChangePoint)
             {
                 StartCoroutine(WaitAndChange());
