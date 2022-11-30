@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GUI;
+using UnityEngine;
 
 namespace Player
 {
@@ -53,6 +54,8 @@ namespace Player
             _runColliderRadius = _originalColliderRadius * ColliderRadiusFactor;
             _squatScale = _originalScale;
             _squatScale.y = _originalScale.y * SquatScaleYFactor;
+            
+            HudController.GetInstance().SetMinRunCapacity(MinCapacityToRun);
         }
 
         private void Update()
@@ -81,7 +84,8 @@ namespace Player
             float increase = 100 / RunLoadTime * frameTime;
             float newCapacity = _runCapacity + increase;
             _runCapacity = newCapacity <= 100 ? newCapacity : 100;
-
+            HudController.GetInstance().UpdateRunBar(_runCapacity);
+            
             _isAbleToRun = _runCapacity >= MinCapacityToRun;
         }
 
@@ -90,6 +94,8 @@ namespace Player
             float frameTime = Time.fixedDeltaTime;
             float decrease = RunDecreasePerSec * frameTime;
             _runCapacity = _runCapacity >= decrease ? _runCapacity - decrease : 0;
+            HudController.GetInstance().UpdateRunBar(_runCapacity);
+            
             if(_runCapacity == 0) _isAbleToRun = false;
         }
 

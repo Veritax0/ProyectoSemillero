@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GUI;
+using UnityEngine;
 
 namespace Player
 {
@@ -6,7 +7,7 @@ namespace Player
     {
         private PlayerController _context;
         private float _sonarOverload;
-        private const float SonarDecreasePerSec = 10;
+        private const float SonarDecreasePerSec = 20;
         private const float MaxOverload = 30;
         public void Execute()
         {
@@ -15,14 +16,17 @@ namespace Player
                 _context.Sonar.Scan();
                 float frameTime = Time.fixedDeltaTime;
                 float decrease = SonarDecreasePerSec * frameTime;
-                float sonarCapacity = _context.SonarCapacity;
-                _context.SonarCapacity = sonarCapacity >= decrease ? sonarCapacity - decrease : 0;
+                float sonarCapacity = _context.SonarCapacity - decrease;
+                sonarCapacity = sonarCapacity >= 0 ? sonarCapacity : 0;
+                _context.SonarCapacity = sonarCapacity;
+                HudController.GetInstance().UpdateSonarBar(sonarCapacity);
+                
                 if (sonarCapacity == 0)
                 {
                     _sonarOverload += _sonarOverload + decrease <= MaxOverload ? decrease : MaxOverload;
+                    HudController.GetInstance().UpdateInverseOverload(_sonarOverload, MaxOverload);
                     if (_sonarOverload >= MaxOverload)
                     {
-                        _context.HitsNum--;
                         _sonarOverload = 0;
                         _context.IsOverload = true;
                         _context.ChangeState( _context.HitsNum == 0 ? _context.DiedState : _context.SonarFillState);

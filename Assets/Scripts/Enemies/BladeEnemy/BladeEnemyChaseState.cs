@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -30,6 +31,11 @@ namespace Enemies.BladeEnemy
 
         public void Execute()
         {
+            if (_context.Hit.IsUnityNull())
+            {
+                _context.ChangeState(_context.GuardState);
+            }
+
             switch (_context.IsHit)
             {
                 case false:
@@ -46,8 +52,10 @@ namespace Enemies.BladeEnemy
                     {
                         _context.ChangeState(_context.AttackState);
                     }
+
                     break;
             }
+            
         }
     }
 }
