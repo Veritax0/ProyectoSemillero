@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,11 @@ namespace GUI
         public Image runCapacityBar;
         public Image minRunCap;
         public Image sonarOverload;
+        public Image playerStatus;
+        public Sprite idleSprite;
+        public Sprite runSprite;
+        public Sprite squatSprite;
+        public Sprite walkSprite;
         public float hitDecreaseSec = 1;
         
         private int _currentHit;
@@ -87,6 +93,25 @@ namespace GUI
         {
             //minRunCap.rectTransform.position += new Vector3(value, 0, 0);
             minRunCap.transform.position += new Vector3(0, value, 0);
+        }
+
+        public void UpdatePlayerStatus(PlayerMoveStatus status)
+        {
+            switch (status)
+            {
+                case PlayerMoveStatus.Running:
+                    playerStatus.sprite = runSprite;
+                    break;
+                case PlayerMoveStatus.Squatting:
+                    playerStatus.sprite = squatSprite;
+                    break;
+                case PlayerMoveStatus.Idle:
+                    playerStatus.sprite = idleSprite;
+                    break;
+                case PlayerMoveStatus.Walking:
+                    playerStatus.sprite = walkSprite;
+                    break;
+            }
         }
     }
 }

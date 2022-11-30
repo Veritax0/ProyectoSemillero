@@ -2,6 +2,6 @@
 {
     public enum PlayerMoveStatus
     {
-        Normal, Running, Squatting
+        Running, Squatting, Idle, Walking
     }
 }

@@ -69,6 +69,7 @@ namespace Player
             {
                 IncreaseRun();
             }
+            HudController.GetInstance().UpdatePlayerStatus(GetMovStatus());
         }
 
 
@@ -156,9 +157,19 @@ namespace Player
         {
             if (!_isRun && !_isSquat)
             {
-                return PlayerMoveStatus.Normal;
+                if (_isMove) return PlayerMoveStatus.Walking;
+                return PlayerMoveStatus.Idle;
             }
             return _isSquat ? PlayerMoveStatus.Squatting : PlayerMoveStatus.Running;
+        }
+
+        public void SetDied()
+        {
+            _isMove = false;
+            _isRun = false;
+            _isSquat = false;
+            _isAbleToRun = false;
+            _runCapacity = 0;
         }
     }
 }
