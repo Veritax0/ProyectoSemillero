@@ -15,13 +15,15 @@ namespace Player
         private const float ImmunityTime = 1;
         private bool _isImmune;
         
+        public float knockback;
+
         internal bool IsOverload;
 
         private IPlayerState _state;
         public IPlayerState DiedState;
         public IPlayerState SonarEnabledState;
         public IPlayerState SonarFillState;
-    
+
         // Start is called before the first frame update
         void Start()
         {
@@ -50,8 +52,15 @@ namespace Player
     
         private void OnTriggerEnter(Collider other)
         {
-            if ( other.CompareTag("Blade") || other.CompareTag("Bullet") && !_isImmune)
+            if ( !_isImmune && (other.CompareTag("Blade") || other.CompareTag("Bullet") ) )
             {
+                Vector3 pos = transform.position;
+                pos.y = 0;
+                Vector3 otherPos = other.ClosestPoint(pos);
+                otherPos.y = 0;
+                Vector3 dir = Vector3.Normalize(pos - otherPos);
+                Rigidbody rb = GetComponent<Rigidbody>();
+                rb.AddForce(dir * knockback, ForceMode.Impulse);
                 StartCoroutine(Immunity());
             }
         }
@@ -59,12 +68,10 @@ namespace Player
         private IEnumerator Immunity()
         {
             _isImmune = true;
-            _collider.enabled = false;
             HitsNum--;
             HudController.GetInstance().RemoveHit();
             if(HitsNum == 0) ChangeState(DiedState);
             yield return new WaitForSeconds(ImmunityTime);
-            _collider.enabled = true;
             _isImmune = false;
         }
     }

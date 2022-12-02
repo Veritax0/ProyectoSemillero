@@ -13,6 +13,7 @@ namespace Enemies.BladeEnemy
         private GameObject _blade;
         private Animator _animator;
         private static readonly int Attack1 = Animator.StringToHash("attack");
+        private const float AttackTime = 2;
 
         public void Execute()
         {
@@ -42,7 +43,7 @@ namespace Enemies.BladeEnemy
             _blade.SetActive(true);
             _agent.SetDestination(transform.position);
             _animator.SetBool(Attack1, true);
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(AttackTime);
             _context.ChangeState(_context.GuardState);
             _animator.SetBool(Attack1, false);
             _blade.SetActive(false);
