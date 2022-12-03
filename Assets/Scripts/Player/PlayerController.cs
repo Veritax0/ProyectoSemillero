@@ -1,4 +1,5 @@
 using System.Collections;
+using GUI;
 using UnityEngine;
 
 namespace Player
@@ -12,7 +13,8 @@ namespace Player
         internal SonarSpawner Sonar;
         private Collider _collider;
         private const float ImmunityTime = 1;
-
+        private bool _isImmune;
+        
         internal bool IsOverload;
 
         private IPlayerState _state;
@@ -48,22 +50,22 @@ namespace Player
     
         private void OnTriggerEnter(Collider other)
         {
-            if ( other.CompareTag("Blade") || other.CompareTag("Bullet") )
+            if ( other.CompareTag("Blade") || other.CompareTag("Bullet") && !_isImmune)
             {
-                HitsNum--;
-                if(HitsNum == 0) ChangeState(DiedState);
-                else
-                {
-                    StartCoroutine(Immunity());
-                }
+                StartCoroutine(Immunity());
             }
         }
 
         private IEnumerator Immunity()
         {
+            _isImmune = true;
             _collider.enabled = false;
+            HitsNum--;
+            HudController.GetInstance().RemoveHit();
+            if(HitsNum == 0) ChangeState(DiedState);
             yield return new WaitForSeconds(ImmunityTime);
             _collider.enabled = true;
+            _isImmune = false;
         }
     }
 }

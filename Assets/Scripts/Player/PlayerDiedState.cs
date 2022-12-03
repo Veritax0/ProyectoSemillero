@@ -10,6 +10,7 @@ namespace Player
         private Rigidbody _rb;
         public void Execute() 
         {
+            _movement.SetDied();
             _movement.enabled = false;
             Destroy(_rb);
         }

@@ -26,6 +26,8 @@ namespace Enemies.BladeEnemy
         private PlayerMovement _playerMovement;
         private const float PlayerRunningFactor = 1.2f;
         private const float PlayerSquattingFactor  = 0.8f;
+
+        private string _status;
         void Start()
         {
             Agent = GetComponent<NavMeshAgent>();
@@ -44,6 +46,9 @@ namespace Enemies.BladeEnemy
         void Update()
         {
             State.Execute();
+            if (State == GuardState) _status = "Guard";
+            else if (State == ChaseState) _status = "Chase";
+            else if (State == AttackState) _status = "Attack";
         }
 
         public override void ChangeState(IEnemyState enemyState)
