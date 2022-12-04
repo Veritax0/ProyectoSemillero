@@ -1,5 +1,5 @@
 using System.Collections;
-using GUI;
+using GUI_;
 using UnityEngine;
 
 namespace Player
