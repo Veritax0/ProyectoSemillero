@@ -42,8 +42,12 @@ namespace Enemies.BladeEnemy
             _attacking = true;
             _blade.SetActive(true);
             _agent.SetDestination(transform.position);
+            _context.AudioEnemy.Idle();
+            
             _animator.SetBool(Attack1, true);
+            _context.AudioEnemy.AttackSound();
             yield return new WaitForSeconds(AttackTime);
+            
             _context.ChangeState(_context.GuardState);
             _animator.SetBool(Attack1, false);
             _blade.SetActive(false);

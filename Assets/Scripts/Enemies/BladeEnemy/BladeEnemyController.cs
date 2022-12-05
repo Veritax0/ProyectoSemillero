@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Audio;
 using Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -23,11 +24,13 @@ namespace Enemies.BladeEnemy
         internal GameObject Blade;
         internal Animator Animator;
 
+        internal AudioControllerEnemy AudioEnemy;
+        
         private PlayerMovement _playerMovement;
         private const float PlayerRunningFactor = 1.2f;
         private const float PlayerSquattingFactor  = 0.8f;
 
-        private string _status;
+        //private string _status;
         void Start()
         {
             Agent = GetComponent<NavMeshAgent>();
@@ -42,13 +45,14 @@ namespace Enemies.BladeEnemy
             State = GuardState;
 
             _playerMovement = objective.GetComponent<PlayerMovement>();
+            AudioEnemy = GetComponent<AudioControllerEnemy>();
         }
         void Update()
         {
             State.Execute();
-            if (State == GuardState) _status = "Guard";
+            /*if (State == GuardState) _status = "Guard";
             else if (State == ChaseState) _status = "Chase";
-            else if (State == AttackState) _status = "Attack";
+            else if (State == AttackState) _status = "Attack";*/
         }
 
         public override void ChangeState(IEnemyState enemyState)

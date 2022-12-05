@@ -38,6 +38,8 @@ namespace Enemies.BladeEnemy
             Vector3 currentDestination = _points[_currentPosition].position;
             currentDestination.y = transform.position.y;
             _agent.SetDestination(currentDestination);
+            _context.AudioEnemy.Walk();
+
             if (_context.IsHit)
             {
                 if (_context.Hit.transform.gameObject.CompareTag("Player")){
@@ -55,10 +57,14 @@ namespace Enemies.BladeEnemy
         private IEnumerator WaitAndChange() //Guard
         {
             _changeDestination = true;
+            _context.AudioEnemy.Idle();
             yield return new WaitForSeconds(Random.Range(1f, 3f));
+            
             _currentPosition = _currentPosition < _points.Count - 1 ? _currentPosition + 1 : 0;
             _agent.SetDestination(_points[_currentPosition].position);
             _changeDestination = false;
+            
+            _context.AudioEnemy.Walk();
         }
     }
 }

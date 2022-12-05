@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Audio;
 using Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,7 +27,8 @@ namespace Enemies.GunEnemy
         internal NavMeshAgent Agent;
         internal RaycastHit Hit;
         internal bool IsHit;
-        
+
+        internal AudioControllerEnemy AudioEnemy;
         
         internal Animator Animator;
         private int _currentPosition;
@@ -56,6 +58,7 @@ namespace Enemies.GunEnemy
             State = GuardState;
             
             _playerMovement = objective.GetComponent<PlayerMovement>();
+            AudioEnemy = GetComponent<AudioControllerEnemy>();
         }
 
         // Update is called once per frame

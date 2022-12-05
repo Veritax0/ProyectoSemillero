@@ -69,6 +69,7 @@ namespace Enemies.GunEnemy
             _isSetDestination = true;
             Vector3 objPos = _objective.transform.position;
             _agent.SetDestination(objPos);
+            _context.AudioEnemy.Walk();
             yield return new WaitForSeconds(0.5f);
             _distanceToObjective = Vector3.Distance(transform.position,objPos);
             _context.ChangeState(_distanceToObjective <= _shootDistance ? 

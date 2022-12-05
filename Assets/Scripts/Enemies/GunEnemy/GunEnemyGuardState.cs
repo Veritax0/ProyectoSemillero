@@ -21,6 +21,7 @@ namespace Enemies.GunEnemy
         private bool _changeDestination;
         private bool _isAimWalk;
         private static readonly int Aim1 = Animator.StringToHash("Aim");
+        private const float AimAroundTime = 3.7f;
         public void SetContext(EnemyController context)
         {
             try
@@ -43,6 +44,9 @@ namespace Enemies.GunEnemy
         public void Execute()
         {
             _agent.SetDestination(_points[_currentPosition].position);
+            
+            _context.AudioEnemy.Walk();
+            
             if (_context.IsHit)
             {
                 if (_context.Hit.transform.gameObject.CompareTag("Player")){
@@ -70,9 +74,12 @@ namespace Enemies.GunEnemy
         {
             _changeDestination = true;
             _animator.SetInteger(Aim1, 0);
+            _context.AudioEnemy.Idle();
             yield return new WaitForFixedUpdate();
+            
             _animator.SetInteger(Aim1, 1);
-            yield return new WaitForSeconds(3.7f);
+            yield return new WaitForSeconds(AimAroundTime);
+            
             _animator.SetInteger(Aim1, 0);
             _currentPosition = _currentPosition < _points.Count - 1 ? _currentPosition + 1 : 0;
             _agent.SetDestination(_points[_currentPosition].position);
