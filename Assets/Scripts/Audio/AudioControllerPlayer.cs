@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Player;
-using Sonar;
 using UnityEngine;
 using Random = System.Random;
 
@@ -98,14 +97,13 @@ namespace Audio
                     break;
                 
                 case PlayerMoveStatus.Dead:
+                    _isDead = true;
                     _audioSource.loop = false;
-                    _audioSource.clip = dying;
-                    _audioSource.volume = dieVolume;
-                    _audioSource.Play();
+                    audioClip = dying;
+                    volume = dieVolume;
                     
                     stepsAudioSource.Stop();
                     stepsAudioSource.clip = null;
-                    _isDead = true;
                     break;
                 
                 case PlayerMoveStatus.Idle:
@@ -125,22 +123,26 @@ namespace Audio
 
         public void WalkSound()
         {
-            _status = PlayerMoveStatus.Walking;
+            if(!_isDead)
+                _status = PlayerMoveStatus.Walking;
         }
         
         public void RunSound()
         {
-            _status = PlayerMoveStatus.Running;
+            if(!_isDead)
+                _status = PlayerMoveStatus.Running;
         }
 
         public void SquatSound()
         {
-            _status = PlayerMoveStatus.Squatting;
+            if(!_isDead)
+                _status = PlayerMoveStatus.Squatting;
         }
         
         public void IdleSound()
         {
-            _status = PlayerMoveStatus.Idle;
+            if(!_isDead)
+                _status = PlayerMoveStatus.Idle;
         }
 
         public void DieSound()
@@ -175,6 +177,12 @@ namespace Audio
             stepsAudioSource.Play();
             yield return new WaitForSecondsRealtime(stepTime);
             _isStep = false;
+        }
+
+        private IEnumerator Die()
+        {
+            
+            yield return new WaitForSecondsRealtime(dying.length);
         }
 
         private void ChangeClip(AudioClip clip)

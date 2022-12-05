@@ -25,6 +25,8 @@ namespace Enemies.BladeEnemy
                 _minDistanceToChangePoint = _context.minDistanceToChangePoint;
                 _points = _context.points;
                 _agent = _context.Agent;
+                
+                _context.AudioEnemy.Walk();
             }
             catch (Exception e)
             {
@@ -38,7 +40,6 @@ namespace Enemies.BladeEnemy
             Vector3 currentDestination = _points[_currentPosition].position;
             currentDestination.y = transform.position.y;
             _agent.SetDestination(currentDestination);
-            _context.AudioEnemy.Walk();
 
             if (_context.IsHit)
             {

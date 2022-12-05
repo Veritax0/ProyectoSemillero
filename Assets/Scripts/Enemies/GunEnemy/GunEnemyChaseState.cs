@@ -71,6 +71,7 @@ namespace Enemies.GunEnemy
             _agent.SetDestination(objPos);
             _context.AudioEnemy.Walk();
             yield return new WaitForSeconds(0.5f);
+            
             _distanceToObjective = Vector3.Distance(transform.position,objPos);
             _context.ChangeState(_distanceToObjective <= _shootDistance ? 
                 _context.AttackState : _context.ChaseState);
@@ -81,6 +82,8 @@ namespace Enemies.GunEnemy
         {
             _isWaitGuard = true;
             yield return new WaitForSeconds(0.5f);
+            
+            _context.AudioEnemy.Walk();
             _context.ChangeState(_context.GuardState);
             _isWaitGuard = false;
         }

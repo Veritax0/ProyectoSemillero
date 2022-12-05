@@ -54,10 +54,8 @@ namespace Enemies.BladeEnemy
                     {
                         _context.ChangeState(_context.AttackState);
                     }
-
                     break;
             }
-            
         }
     }
 }

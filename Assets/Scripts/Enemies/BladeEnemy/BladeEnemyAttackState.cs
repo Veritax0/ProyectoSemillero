@@ -48,6 +48,7 @@ namespace Enemies.BladeEnemy
             _context.AudioEnemy.AttackSound();
             yield return new WaitForSeconds(AttackTime);
             
+            _context.AudioEnemy.Walk();
             _context.ChangeState(_context.GuardState);
             _animator.SetBool(Attack1, false);
             _blade.SetActive(false);

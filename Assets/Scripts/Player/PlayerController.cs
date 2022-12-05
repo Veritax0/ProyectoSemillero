@@ -71,7 +71,6 @@ namespace Player
             HudController.GetInstance().RemoveHit();
             if (HitsNum <= 0)
             {
-                AudioPlayer.DieSound();
                 ChangeState(DiedState);
             }
             else

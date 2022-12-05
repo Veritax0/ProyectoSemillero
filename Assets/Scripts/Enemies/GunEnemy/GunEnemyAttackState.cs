@@ -47,6 +47,7 @@ namespace Enemies.GunEnemy
             yield return new WaitForSeconds(_aimTime);
             
             Shoot();
+            _context.AudioEnemy.Walk();
             _context.ChangeState(_context.GuardState);
             _isAim = false;
         }

@@ -33,6 +33,8 @@ namespace Enemies.GunEnemy
                 _animator = _context.Animator;
                 _aimAroundCor = StartCoroutine(VoidCor());
                 _aimWalkCor = StartCoroutine(VoidCor());
+                
+                _context.AudioEnemy.Walk();
             }
             catch (Exception e)
             {
@@ -44,8 +46,6 @@ namespace Enemies.GunEnemy
         public void Execute()
         {
             _agent.SetDestination(_points[_currentPosition].position);
-            
-            _context.AudioEnemy.Walk();
             
             if (_context.IsHit)
             {
@@ -85,6 +85,8 @@ namespace Enemies.GunEnemy
             _agent.SetDestination(_points[_currentPosition].position);
             _changeDestination = false;
             _isAimWalk = false;
+            
+            _context.AudioEnemy.Walk();
         }
 
         private IEnumerator AimWalking()
