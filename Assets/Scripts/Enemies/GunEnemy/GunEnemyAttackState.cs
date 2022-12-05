@@ -43,8 +43,11 @@ namespace Enemies.GunEnemy
         {
             _isAim = true;
             _agent.SetDestination(transform.position);
+            _context.AudioEnemy.Idle();
             yield return new WaitForSeconds(_aimTime);
+            
             Shoot();
+            _context.AudioEnemy.Walk();
             _context.ChangeState(_context.GuardState);
             _isAim = false;
         }
@@ -59,6 +62,8 @@ namespace Enemies.GunEnemy
             bulletInstantiate.transform.SetParent(null);
             rb.AddForce(dir * force,ForceMode.Impulse);
             Destroy(bulletInstantiate, 3);
+            
+            _context.AudioEnemy.AttackSound();
         }
     }
 }

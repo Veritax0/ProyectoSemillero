@@ -47,15 +47,15 @@ namespace Enemies.BladeEnemy
                 case true:
                     Vector3 objPos = _objective.transform.position;
                     _agent.SetDestination(objPos);
+                    _context.AudioEnemy.Walk();
+                    
                     float objDistance = Vector3.Distance(transform.position, objPos);
                     if (objDistance < _attackDistance)
                     {
                         _context.ChangeState(_context.AttackState);
                     }
-
                     break;
             }
-            
         }
     }
 }

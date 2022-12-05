@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography;
+﻿using Audio;
 using UnityEngine;
 
 namespace Player
@@ -8,11 +8,17 @@ namespace Player
         private PlayerController _context;
         private PlayerMovement _movement;
         private Rigidbody _rb;
+        private bool _soundDone;
         public void Execute() 
         {
             _movement.SetDied();
             _movement.enabled = false;
             Destroy(_rb);
+            MusicController.GetInstance().StopMusic();
+            if(!_soundDone){
+                _context.AudioPlayer.DieSound();
+                _soundDone = true;
+            }
         }
 
         public void SetContext(PlayerController context)

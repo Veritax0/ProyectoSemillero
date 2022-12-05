@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Audio;
 using Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,7 +27,8 @@ namespace Enemies.GunEnemy
         internal NavMeshAgent Agent;
         internal RaycastHit Hit;
         internal bool IsHit;
-        
+
+        internal AudioControllerEnemy AudioEnemy;
         
         internal Animator Animator;
         private int _currentPosition;
@@ -35,6 +37,12 @@ namespace Enemies.GunEnemy
         private PlayerMovement _playerMovement;
         private const float PlayerRunningFactor = 1.05f;
         private const float PlayerSquattingFactor  = 0.8f;
+        
+        //RayCast
+        private Vector3 _bulletGenPos;
+        private Vector3 _rayDirection;
+        private float _rayDistance;
+
         public override void ChangeState(IEnemyState enemyState)
         {
             State = enemyState;
@@ -43,6 +51,9 @@ namespace Enemies.GunEnemy
 
         void Start()
         {
+            _playerMovement = objective.GetComponent<PlayerMovement>();
+            AudioEnemy = GetComponent<AudioControllerEnemy>();
+            
             Agent = GetComponent<NavMeshAgent>();
             Agent.SetDestination(points[_currentPosition].position);
             Animator = GetComponent<Animator>();
@@ -54,20 +65,18 @@ namespace Enemies.GunEnemy
             AttackState = gameObject.AddComponent<GunEnemyAttackState>();
             AttackState.SetContext(this);
             State = GuardState;
-            
-            _playerMovement = objective.GetComponent<PlayerMovement>();
         }
 
-        // Update is called once per frame
         void Update()
         {
+            DoRayCast();
             State.Execute();
         }
-        private void OnDrawGizmos()
+        private void DoRayCast()
         {
             Vector3 pointerPos = pointer.position;
-            Vector3 bulletGenPos = bulletGen.position;
-            Vector3 direction = Vector3.Normalize(pointerPos - bulletGenPos);
+            _bulletGenPos = bulletGen.position;
+            _rayDirection = Vector3.Normalize(pointerPos - _bulletGenPos);
         
             float factor = 1;
             if (_playerMovement != null)
@@ -85,19 +94,23 @@ namespace Enemies.GunEnemy
                         break;
                 }
             }
-            float distance = aimDistance * factor;
+            _rayDistance = aimDistance * factor;
             
-            IsHit = Physics.SphereCast(bulletGenPos, transform.lossyScale.x / 2, 
-                direction, out Hit, distance);
+            IsHit = Physics.SphereCast(_bulletGenPos, transform.lossyScale.x / 2, 
+                _rayDirection, out Hit, _rayDistance);
+        }
+
+        private void OnDrawGizmos()
+        {
             if (IsHit)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawRay(bulletGenPos, direction * Hit.distance);
+                Gizmos.DrawRay(_bulletGenPos, _rayDirection * Hit.distance);
             }
             else
             {
                 Gizmos.color = Color.green;
-                Gizmos.DrawRay(bulletGenPos, direction * distance);
+                Gizmos.DrawRay(_bulletGenPos, _rayDirection * _rayDistance);
             }
         }
     }

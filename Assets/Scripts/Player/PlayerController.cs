@@ -1,5 +1,7 @@
 using System.Collections;
-using GUI;
+using Audio;
+using GUI_;
+using Sonar;
 using UnityEngine;
 
 namespace Player
@@ -11,24 +13,21 @@ namespace Player
         private float _sonarOverload;
 
         internal SonarSpawner Sonar;
-        private Collider _collider;
         private const float ImmunityTime = 1;
         private bool _isImmune;
         
-        public float knockback;
-
+        public float knockBack;
         internal bool IsOverload;
+        internal AudioControllerPlayer AudioPlayer;
 
         private IPlayerState _state;
-        public IPlayerState DiedState;
-        public IPlayerState SonarEnabledState;
-        public IPlayerState SonarFillState;
-
-        // Start is called before the first frame update
+        internal IPlayerState DiedState;
+        internal IPlayerState SonarEnabledState;
+        internal IPlayerState SonarFillState;
         void Start()
         {
             Sonar = GetComponent<SonarSpawner>();
-            _collider = GetComponent<CapsuleCollider>();
+            AudioPlayer = GetComponent<AudioControllerPlayer>();
             
             DiedState = gameObject.AddComponent<PlayerDiedState>();
             DiedState.SetContext(this);
@@ -60,7 +59,7 @@ namespace Player
                 otherPos.y = 0;
                 Vector3 dir = Vector3.Normalize(pos - otherPos);
                 Rigidbody rb = GetComponent<Rigidbody>();
-                rb.AddForce(dir * knockback, ForceMode.Impulse);
+                rb.AddForce(dir * knockBack, ForceMode.Impulse);
                 StartCoroutine(Immunity());
             }
         }
@@ -70,7 +69,14 @@ namespace Player
             _isImmune = true;
             HitsNum--;
             HudController.GetInstance().RemoveHit();
-            if(HitsNum == 0) ChangeState(DiedState);
+            if (HitsNum <= 0)
+            {
+                ChangeState(DiedState);
+            }
+            else
+            {
+                AudioPlayer.HurtSound();
+            }
             yield return new WaitForSeconds(ImmunityTime);
             _isImmune = false;
         }

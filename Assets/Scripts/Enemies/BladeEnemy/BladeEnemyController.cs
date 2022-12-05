@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Audio;
 using Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -23,13 +24,22 @@ namespace Enemies.BladeEnemy
         internal GameObject Blade;
         internal Animator Animator;
 
+        internal AudioControllerEnemy AudioEnemy;
+        
         private PlayerMovement _playerMovement;
         private const float PlayerRunningFactor = 1.2f;
         private const float PlayerSquattingFactor  = 0.8f;
+        
+        //RayCast
+        private Vector3 _rayDirection;
+        private float _rayDistance;
 
-        private string _status;
+        //private string _status;
         void Start()
         {
+            _playerMovement = objective.GetComponent<PlayerMovement>();
+            AudioEnemy = GetComponent<AudioControllerEnemy>();
+            
             Agent = GetComponent<NavMeshAgent>();
             Blade = transform.GetChild(0).gameObject;
             Animator = GetComponent<Animator>();
@@ -40,29 +50,27 @@ namespace Enemies.BladeEnemy
             AttackState = gameObject.AddComponent<BladeEnemyAttackState>();
             AttackState.SetContext(this);
             State = GuardState;
-
-            _playerMovement = objective.GetComponent<PlayerMovement>();
         }
         void Update()
         {
+            DoRayCast();
             State.Execute();
-            if (State == GuardState) _status = "Guard";
+            /*if (State == GuardState) _status = "Guard";
             else if (State == ChaseState) _status = "Chase";
-            else if (State == AttackState) _status = "Attack";
+            else if (State == AttackState) _status = "Attack";*/
         }
 
         public override void ChangeState(IEnemyState enemyState)
         {
             State = enemyState;
         }
-    
-        private void OnDrawGizmos()
+        private void DoRayCast()
         {
             Vector3 objPos = objective.transform.position;
             objPos.y += 0.5f;
             Vector3 position = transform.position;
             position.y = 1.5f;
-            Vector3 direction = Vector3.Normalize(objPos - position);
+            _rayDirection = Vector3.Normalize(objPos - position);
 
             float factor = 1;
             if (_playerMovement != null)
@@ -81,19 +89,23 @@ namespace Enemies.BladeEnemy
                 }
             }
             
-            float distance = chaseDistance * factor;
+            _rayDistance = chaseDistance * factor;
             
             IsHit = Physics.SphereCast(position, transform.lossyScale.x / 2, 
-                direction, out Hit, distance);
+                _rayDirection, out Hit, _rayDistance);
+        }
+        
+        private void OnDrawGizmos()
+        {
             if (IsHit)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawRay(position, direction * Hit.distance);
+                Gizmos.DrawRay(transform.position, _rayDirection * Hit.distance);
             }
             else
             {
                 Gizmos.color = Color.green;
-                Gizmos.DrawRay(position, direction * distance);
+                Gizmos.DrawRay(transform.position, _rayDirection * _rayDistance);
             }
         }
     }

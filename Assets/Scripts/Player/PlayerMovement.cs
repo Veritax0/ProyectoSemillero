@@ -1,4 +1,5 @@
-﻿using GUI;
+﻿using Audio;
+using GUI_;
 using UnityEngine;
 
 namespace Player
@@ -37,25 +38,34 @@ namespace Player
         private CapsuleCollider _collider;
         private const float SquatScaleYFactor = 0.6f;
         private const float ColliderRadiusFactor = 1.6f;
-        
+
+        private AudioControllerPlayer _audioPlayer;
 
         private void Start()
         {
+            //Getting important components
             _rb = GetComponent<Rigidbody>();
             _collider = GetComponent<CapsuleCollider>();
             _originalColliderRadius = _collider.radius;
             _rb.freezeRotation = true;
-            
+            _audioPlayer = GetComponent<AudioControllerPlayer>();
+            HudController.GetInstance().SetMinRunCapacity(MinCapacityToRun);
+                        
+            //Speed values and audio gap between steps
             _originalMoveSpeed = moveSpeed;
+            _audioPlayer.WalkStepTime = 1 / moveSpeed;
+            
             _runSpeed = _originalMoveSpeed * RunSpeedFactor;
+            _audioPlayer.RunStepTime = (1 / _runSpeed) * 0.8f;
+            
             _squatSpeed = _originalMoveSpeed * SquatSpeedFactor;
+            _audioPlayer.SquatStepTime = (1 / _squatSpeed) * 1.2f;
 
+            //Scale values
             _originalScale = transform.localScale;
             _runColliderRadius = _originalColliderRadius * ColliderRadiusFactor;
             _squatScale = _originalScale;
             _squatScale.y = _originalScale.y * SquatScaleYFactor;
-            
-            HudController.GetInstance().SetMinRunCapacity(MinCapacityToRun);
         }
 
         private void Update()
@@ -105,6 +115,7 @@ namespace Player
             _horizontalInput = Input.GetAxisRaw("Horizontal");
             _verticalInput = Input.GetAxisRaw("Vertical");
             _isMove = _horizontalInput != 0 || _verticalInput != 0;
+            _audioPlayer.IsTired = !_isAbleToRun;
             
             //Squatting
             if (Input.GetKey(KeyCode.LeftControl))
@@ -118,6 +129,10 @@ namespace Player
                 pos.y = _squatScale.y;
                 tf.position = pos;
                 _collider.height = _squatScale.y;
+                
+                _audioPlayer.IsSquatWalk = _isMove;
+                _audioPlayer.SquatSound();
+
             }
             //Quit squatting
             else if(Input.GetKeyUp(KeyCode.LeftControl))
@@ -130,6 +145,8 @@ namespace Player
                 pos.y = _originalScale.y;
                 tf.position = pos;
                 _collider.height = _originalScale.y;
+                
+                _audioPlayer.IdleSound();
             }
             //Running
             else if (Input.GetKey(KeyCode.LeftShift) && _isAbleToRun && _isMove)
@@ -137,6 +154,8 @@ namespace Player
                 moveSpeed = _runSpeed;
                 _isRun = true;
                 _collider.radius = _runColliderRadius;
+                
+                _audioPlayer.RunSound();
             }
             //Quit running
             else if(Input.GetKeyUp(KeyCode.LeftShift) || !_isAbleToRun || !_isMove)
@@ -144,6 +163,15 @@ namespace Player
                 moveSpeed = _originalMoveSpeed;
                 _isRun = false;
                 _collider.radius = _originalColliderRadius;
+                
+                _audioPlayer.IdleSound();
+            }else if (_isMove)
+            {
+                _audioPlayer.WalkSound();
+            }
+            else
+            {
+                _audioPlayer.IdleSound();
             }
         }
 
