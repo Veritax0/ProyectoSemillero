@@ -6,7 +6,6 @@ namespace Sonar
     {
         public GameObject scanner;
         public Transform position;
-        private GameObject newScanner;
         private GameObject activeScanner;
 
         // Start is called before the first frame update
@@ -27,7 +26,6 @@ namespace Sonar
             {
                 Debug.Log("colision");
                 activeScanner = Instantiate(scanner, position);
-                newScanner = Instantiate(scanner, position);
             }
         }
     }

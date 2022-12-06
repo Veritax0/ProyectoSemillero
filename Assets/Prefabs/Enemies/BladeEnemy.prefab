@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 8824109696689735635}
   - component: {fileID: 8824109696689735636}
   - component: {fileID: 8824109696689735633}
+  - component: {fileID: 6176952213777814186}
   m_Layer: 0
   m_Name: BladeEnemy
   m_TagString: Enemy
@@ -326,6 +327,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scanner: {fileID: 1828098128006606399, guid: 964f4d71adc1ce04d823d74f070a8576, type: 3}
   position: {fileID: 4200750174630188646}
+--- !u!136 &6176952213777814186
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2865157466071858407}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3948619286973964404
 GameObject:
   m_ObjectHideFlags: 0
