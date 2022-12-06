@@ -27,8 +27,9 @@ namespace Player
         void Start()
         {
             Sonar = GetComponent<SonarSpawner>();
+            ScannerControllerPlayer.SetPlayerTransform(transform);
             AudioPlayer = GetComponent<AudioControllerPlayer>();
-            
+
             DiedState = gameObject.AddComponent<PlayerDiedState>();
             DiedState.SetContext(this);
             SonarEnabledState = gameObject.AddComponent<PlayerSonarEnabledState>();

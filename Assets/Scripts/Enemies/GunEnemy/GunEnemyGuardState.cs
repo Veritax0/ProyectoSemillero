@@ -27,7 +27,7 @@ namespace Enemies.GunEnemy
             try
             {
                 _context = (GunEnemyController) context;
-                _points = _context.points;
+                _points = _context.Points;
                 _minDistanceToChangePoint = _context.minDistanceToChangePoint;
                 _agent = _context.Agent;
                 _animator = _context.Animator;

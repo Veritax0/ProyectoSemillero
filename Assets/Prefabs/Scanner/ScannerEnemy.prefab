@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1828098128006606395}
   - component: {fileID: 1828098128006606392}
   - component: {fileID: 1828098128006606393}
-  - component: {fileID: 1828098128006606394}
   - component: {fileID: 7770639411435321650}
   - component: {fileID: 5276471654003004668}
+  - component: {fileID: 302701366190092263}
   m_Layer: 0
   m_Name: ScannerEnemy
   m_TagString: playerScanner
@@ -86,21 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1828098128006606394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1828098128006606399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 656e1d8fdaeb8a047ae58c466cd65965, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1
-  delayEndTime: 2
-  sonarClip: {fileID: 8300000, guid: 4bbb7a7ecbf358e48a65e340a09a2272, type: 3}
 --- !u!82 &7770639411435321650
 AudioSource:
   m_ObjectHideFlags: 0
@@ -220,3 +205,18 @@ MonoBehaviour:
   occlusionEnabled: 0
   occlusionIntensity: 1
   quality: 2
+--- !u!114 &302701366190092263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828098128006606399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c8901aaf87948e98ac75807835e58cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  delayEndTime: 2
+  sonarClip: {fileID: 8300000, guid: 4bbb7a7ecbf358e48a65e340a09a2272, type: 3}

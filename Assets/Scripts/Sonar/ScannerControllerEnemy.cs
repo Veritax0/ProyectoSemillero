@@ -1,13 +1,11 @@
-using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace Sonar
 {
-    public class ScannerController : MonoBehaviour
+    public class ScannerControllerEnemy : MonoBehaviour
     {
         public float speed;
         public float delayEndTime;
-        public TagField objetivo;
         
         public AudioClip sonarClip;
         private AudioSource _audioSource;
@@ -15,7 +13,7 @@ namespace Sonar
         
         void Start()
         {
-            endScanner();
+            EndScanner();
             _audioSource = GetComponent<AudioSource>();
             _audioSource.clip = sonarClip;
             _audioSource.loop = true;
@@ -25,14 +23,14 @@ namespace Sonar
 
         void Update()
         {
-            Vector3 vectorMesh = this.transform.localScale;
-            float growing = this.speed * Time.deltaTime;
-            this.transform.localScale = new Vector3(vectorMesh.x + growing,vectorMesh.y + growing,vectorMesh.z + growing);
+            Vector3 vectorMesh = transform.localScale;
+            float growing = speed * Time.deltaTime;
+            transform.localScale = new Vector3(vectorMesh.x + growing,vectorMesh.y + growing,vectorMesh.z + growing);
             _audioSource.volume -= Time.fixedDeltaTime * InitialVolume / delayEndTime;
         }
-
-        private void endScanner(){
-            Destroy(this.gameObject, delayEndTime);
+        
+        private void EndScanner(){
+            Destroy(gameObject, delayEndTime);
         }
     }
 }
