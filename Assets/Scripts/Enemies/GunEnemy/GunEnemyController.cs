@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Audio;
 using Player;
@@ -7,9 +8,10 @@ using UnityEngine.AI;
 namespace Enemies.GunEnemy
 {
     public class GunEnemyController : EnemyController
-    {  
-        [Header("Guard config")]
-        public List<Transform> points; //Guard
+    {
+        [Header("Guard config")] 
+        public Transform pointsParent; 
+        internal List<Transform> Points; //Guard
         public float minDistanceToChangePoint; //Guard
     
         [Header("Gun config")]
@@ -51,11 +53,25 @@ namespace Enemies.GunEnemy
 
         void Start()
         {
+            Points = new List<Transform>();
+            switch (pointsParent.childCount)
+            {
+                case 0:
+                    throw new Exception("Debe ingresar una ruta.");
+                case 1:
+                    Points.Add(pointsParent);
+                    break;
+                default:
+                    for (int i = 0; i < pointsParent.childCount; i++)
+                        Points.Add(pointsParent.GetChild(i));
+                    break;
+            }
+
             _playerMovement = objective.GetComponent<PlayerMovement>();
             AudioEnemy = GetComponent<AudioControllerEnemy>();
             
             Agent = GetComponent<NavMeshAgent>();
-            Agent.SetDestination(points[_currentPosition].position);
+            Agent.SetDestination(Points[_currentPosition].position);
             Animator = GetComponent<Animator>();
             aimDistance = Vector3.Distance(pointer.position, bulletGen.position);
             GuardState = gameObject.AddComponent<GunEnemyGuardState>();

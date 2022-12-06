@@ -23,7 +23,7 @@ namespace Enemies.BladeEnemy
             {
                 _context = (BladeEnemyController) context;
                 _minDistanceToChangePoint = _context.minDistanceToChangePoint;
-                _points = _context.points;
+                _points = _context.Points;
                 _agent = _context.Agent;
                 
                 _context.AudioEnemy.Walk();

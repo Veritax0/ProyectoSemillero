@@ -302,7 +302,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 1
   Mute: 0
-  Spatialize: 0
+  Spatialize: 1
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
@@ -342,7 +342,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -402,16 +402,18 @@ MonoBehaviour:
   slowBreath: {fileID: 8300000, guid: 1517b680a86dbd545ade21c58f5b3f6f, type: 3}
   fastBreath: {fileID: 8300000, guid: 208b466687cf455459c7748431051e66, type: 3}
   tiredBreath: {fileID: 8300000, guid: 1b88af19c45e5ce4d8d5f6aced1a9617, type: 3}
-  squatBreathVolume: 0
-  walkBreathVolume: 0
-  runBreathVolume: 0
-  tiredBreathVolume: 0
-  idleBreathVolume: 0
+  squatBreathVolume: 0.5
+  walkBreathVolume: 0.3
+  runBreathVolume: 0.4
+  tiredBreathVolume: 0.5
+  idleBreathVolume: 0.15
   hurt:
   - {fileID: 8300000, guid: 2d2f5e9049c4cc0408b5c9124a93e186, type: 3}
   - {fileID: 8300000, guid: 367cd5af5c05814429cbbcd111ad9598, type: 3}
   - {fileID: 8300000, guid: 4b21f02a4805ee14bb6e53e5367a40ec, type: 3}
   dying: {fileID: 8300000, guid: b68f16c211eb45244aa64e77b280ed2e, type: 3}
+  hurtVolume: 0.3
+  dieVolume: 0.3
 --- !u!114 &8141851446653673194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f7b5546320ed04b9ed16111e29f974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockback: 20
+  knockBack: 20
 --- !u!1 &8141851446738999700
 GameObject:
   m_ObjectHideFlags: 0

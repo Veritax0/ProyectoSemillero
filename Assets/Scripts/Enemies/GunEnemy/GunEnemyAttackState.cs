@@ -14,6 +14,7 @@ namespace Enemies.GunEnemy
         private GameObject _bullet;
         private bool _isAim;
         private float _aimTime;
+        private const float ShootForce = 10;
         public void SetContext(EnemyController context)
         {
             try
@@ -46,21 +47,20 @@ namespace Enemies.GunEnemy
             _context.AudioEnemy.Idle();
             yield return new WaitForSeconds(_aimTime);
             
-            Shoot();
+            Vector3 dir = Vector3.Normalize(_pointer.position - _bulletGen.position);
+            Shoot(dir);
             _context.AudioEnemy.Walk();
             _context.ChangeState(_context.GuardState);
             _isAim = false;
         }
         
         // ReSharper disable Unity.PerformanceAnalysis
-        private void Shoot()
+        private void Shoot(Vector3 direction)
         {
             GameObject bulletInstantiate = Instantiate(_bullet, _bulletGen);
-            Vector3 dir = Vector3.Normalize(_pointer.position - _bulletGen.position);
-            float force = 20;
             Rigidbody rb = bulletInstantiate.GetComponent<Rigidbody>();
             bulletInstantiate.transform.SetParent(null);
-            rb.AddForce(dir * force,ForceMode.Impulse);
+            rb.AddForce(direction * ShootForce,ForceMode.Impulse);
             Destroy(bulletInstantiate, 3);
             
             _context.AudioEnemy.AttackSound();

@@ -8,13 +8,13 @@ namespace Enemies.GunEnemy
         private void OnTriggerEnter(Collider other)
         {
             Debug.Log("Collider");
-            Destroy(this.gameObject);
+            if(!other.CompareTag("playerScanner"))Destroy(gameObject);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             Debug.Log("Collision");
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

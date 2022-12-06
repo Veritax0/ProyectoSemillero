@@ -127,10 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf810bf7927ebc4478983a2a7c18552d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points:
-  - {fileID: 0}
-  - {fileID: 0}
-  minDistanceToChangePoint: 0.2
+  pointsParent: {fileID: 0}
+  minDistanceToChangePoint: 1.5
   objective: {fileID: 0}
   attackDistance: 1.5
   chaseDistance: 10
@@ -325,8 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 756e6ff7868999149954fa997cd1945b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanner: {fileID: 1828098128006606399, guid: 964f4d71adc1ce04d823d74f070a8576, type: 3}
-  position: {fileID: 4200750174630188646}
+  scanner: {fileID: 302701366190092263, guid: 964f4d71adc1ce04d823d74f070a8576, type: 3}
+  position: {fileID: 2865157466071858427}
 --- !u!136 &6176952213777814186
 CapsuleCollider:
   m_ObjectHideFlags: 0

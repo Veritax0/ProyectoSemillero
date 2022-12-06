@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Audio;
 using Player;
@@ -9,7 +10,8 @@ namespace Enemies.BladeEnemy
     public class BladeEnemyController : EnemyController{
     
         [Header("Guard config")]
-        public List<Transform> points;
+        public Transform pointsParent;
+        internal List<Transform> Points;
         public float minDistanceToChangePoint;
     
         [Header("Atack config")]
@@ -37,6 +39,20 @@ namespace Enemies.BladeEnemy
         //private string _status;
         void Start()
         {
+            Points = new List<Transform>();
+            switch (pointsParent.childCount)
+            {
+                case 0:
+                    throw new Exception("Debe ingresar una ruta.");
+                case 1:
+                    Points.Add(pointsParent);
+                    break;
+                default:
+                    for (int i = 0; i < pointsParent.childCount; i++)
+                        Points.Add(pointsParent.GetChild(i));
+                    break;
+            }
+            
             _playerMovement = objective.GetComponent<PlayerMovement>();
             AudioEnemy = GetComponent<AudioControllerEnemy>();
             
