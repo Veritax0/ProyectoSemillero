@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Enemies.BladeEnemy;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +10,7 @@ namespace Enemies.GunEnemy
         private NavMeshAgent _agent;
         private GunEnemyController _context;
         
-        private PlayerController _objective;
+        private GameObject _objective;
         private float _aimDistance;
         private float _shootDistance;
         private float _distanceToObjective;
@@ -70,7 +69,9 @@ namespace Enemies.GunEnemy
             _isSetDestination = true;
             Vector3 objPos = _objective.transform.position;
             _agent.SetDestination(objPos);
+            _context.AudioEnemy.Walk();
             yield return new WaitForSeconds(0.5f);
+            
             _distanceToObjective = Vector3.Distance(transform.position,objPos);
             _context.ChangeState(_distanceToObjective <= _shootDistance ? 
                 _context.AttackState : _context.ChaseState);
@@ -81,6 +82,8 @@ namespace Enemies.GunEnemy
         {
             _isWaitGuard = true;
             yield return new WaitForSeconds(0.5f);
+            
+            _context.AudioEnemy.Walk();
             _context.ChangeState(_context.GuardState);
             _isWaitGuard = false;
         }
