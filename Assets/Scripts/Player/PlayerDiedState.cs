@@ -1,4 +1,5 @@
 ﻿using Audio;
+using GUI_;
 using UnityEngine;
 
 namespace Player
@@ -19,6 +20,7 @@ namespace Player
                 _context.AudioPlayer.DieSound();
                 _soundDone = true;
             }
+            HudController.GetInstance().Defeat();
         }
 
         public void SetContext(PlayerController context)

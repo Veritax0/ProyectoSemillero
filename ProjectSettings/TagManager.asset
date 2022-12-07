@@ -10,6 +10,8 @@ TagManager:
   - Gun
   - Bullet
   - playerScanner
+  - Objective
+  - RutaEscape
   layers:
   - Default
   - TransparentFX

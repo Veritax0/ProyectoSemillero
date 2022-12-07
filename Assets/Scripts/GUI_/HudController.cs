@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Player;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GUI_
@@ -24,6 +26,12 @@ namespace GUI_
         private bool _isRemovingHit;
         private float _maxOverload;
 
+
+        public Text victoryText;
+        public Text defeatText;
+        public Text stoleText;
+        private Boolean restart;
+
         private void Awake()
         {
             if (_instance == null) _instance = this;
@@ -43,6 +51,10 @@ namespace GUI_
         private void Update()
         {
             if(_isRemovingHit) RemoveAHit();
+            if (Input.GetKeyDown(KeyCode.Escape) && restart)
+            {
+                SceneManager.LoadScene("Escenario");
+            }
         }
 
         public void UpdateSonarBar(float value)
@@ -112,6 +124,27 @@ namespace GUI_
                     playerStatus.sprite = walkSprite;
                     break;
             }
+        }
+
+        public void Victory()
+        {
+            victoryText.enabled = true;
+            restart = true;
+        }
+
+        public void Defeat()
+        {
+            defeatText.enabled = true;
+            restart = true;
+        }
+        
+        public void Stole()
+        {
+            stoleText.enabled = true;
+        }
+        public void NotStole()
+        {
+            stoleText.enabled = false;
         }
     }
 }
