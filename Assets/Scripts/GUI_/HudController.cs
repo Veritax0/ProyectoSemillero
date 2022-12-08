@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Player;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -25,12 +26,15 @@ namespace GUI_
         private static HudController _instance;
         private bool _isRemovingHit;
         private float _maxOverload;
-
+        internal static PlayerMovement PlayerMovement;
 
         public Text victoryText;
         public Text defeatText;
         public Text stoleText;
-        private Boolean restart;
+        public RectTransform pauseMenu;
+        
+        private bool _restart;
+        private bool _isPause;
 
         private void Awake()
         {
@@ -51,12 +55,53 @@ namespace GUI_
         private void Update()
         {
             if(_isRemovingHit) RemoveAHit();
-            if (Input.GetKeyDown(KeyCode.Escape) && restart)
+            if (Input.GetKeyDown(KeyCode.Escape) && _restart)
             {
                 SceneManager.LoadScene("Escenario");
             }
+
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Pause();
+            }
         }
 
+        private void Pause()
+        {
+            if (_isPause)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Time.timeScale = 1;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = true;
+                Time.timeScale = 0;
+            }
+            _isPause = !_isPause;
+            pauseMenu.gameObject.SetActive(_isPause);
+            PlayerMovement.enabled = !_isPause;
+        }
+
+        public void Restart()
+        {
+            Time.timeScale = 1;
+            SceneManager.LoadScene("Escenario");
+        } 
+        
+        public void Resume()
+        {
+            Pause();
+        } 
+        
+        public void MainMenu()
+        {
+            Time.timeScale = 1;
+            SceneManager.LoadScene(0);
+        } 
+        
         public void UpdateSonarBar(float value)
         {
             sonarCapacityBar.fillAmount = value / 100;
@@ -129,13 +174,13 @@ namespace GUI_
         public void Victory()
         {
             victoryText.enabled = true;
-            restart = true;
+            _restart = true;
         }
 
         public void Defeat()
         {
             defeatText.enabled = true;
-            restart = true;
+            _restart = true;
         }
         
         public void Stole()
