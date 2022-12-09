@@ -49,6 +49,7 @@ namespace Player
             _originalColliderRadius = _collider.radius;
             _rb.freezeRotation = true;
             _audioPlayer = GetComponent<AudioControllerPlayer>();
+            HudController.PlayerMovement = this;
             HudController.GetInstance().SetMinRunCapacity(MinCapacityToRun);
                         
             //Speed values and audio gap between steps

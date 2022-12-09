@@ -544,7 +544,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 816.0294, y: 768}
+  m_SizeDelta: {x: 1000, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1634189811
 MonoBehaviour:
@@ -559,7 +559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -567,7 +567,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 02c7a10929348be4ba8839c81392e965, type: 3}
+    m_Font: {fileID: 12800000, guid: d7dd2fb0f16c91b46a66e5a7e2159323, type: 3}
     m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
@@ -579,14 +579,14 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\xA1Saludos Agente Bravo!\nte encargo esta misi\xF3n.\r\n\nDebes infiltrarte
-    en la base de la mafia de los Dragones Rojos y llegar hasta los archivos secretos.
-    Tr\xE1eme todos los datos de su base que puedan ayudar con la investigaci\xF3n.\n\nLa
-    base est\xE1 repleta de guardias que atacar\xEDan hasta una mosca si la descubren
-    merodeando por la zona. Ten cuidado.\n\nRecuerda que eres nuestro agente m\xE1s
-    h\xE1bil. Has entrenado duro durante mucho tiempo y ahora eres parte del escuadr\xF3n
-    especial Topos de \xE9lite. \n\nConfiamos en que puedas lograrlo. Usa tu habilidad
-    especial para completar tu misi\xF3n.\r\n\nBuena suerte agente.\r\n"
+  m_Text: "\xA1saludos agente bravo!\nte encargo esta mision.\r\n\ndebes infiltrarte
+    en la base de la mafia de los dragones rojos y llegar hasta los archivos secretos.
+    traeme todos los datos de su base que puedan ayudar con la investigacion.\n\nLa
+    base esta repleta de guardias que atacarian hasta una mosca si la descubren merodeando
+    por la zona. ten cuidado.\n\nrecuerda que eres nuestro agente mas habil. has
+    entrenado duro durante mucho tiempo y ahora eres parte del escuadr\xF3n especial
+    topos de elite. \n\nconfiamos en que puedas lograrlo. usa tu habilidad especial
+    para completar tu mision.\r\n\nbuena suerte agente.\r"
 --- !u!222 &1634189812
 CanvasRenderer:
   m_ObjectHideFlags: 0
