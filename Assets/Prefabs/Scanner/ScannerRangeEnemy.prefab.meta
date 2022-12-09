@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/EscenaVera(PlayerMovement)/NavMesh.asset.meta
+<<<<<<< Updated upstream
+guid: d4537e0fab899744eb84c54de87e6442
+=======
+guid: da43224dbdb138348a6a313db54bd90a
+>>>>>>> Stashed changes
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 23800000
+========
+guid: a03feb61b91b67141bede87d57cf1a27
+PrefabImporter:
+  externalObjects: {}
+>>>>>>>> scannerInteractivo:Assets/Prefabs/ScannerEnemy.prefab.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
