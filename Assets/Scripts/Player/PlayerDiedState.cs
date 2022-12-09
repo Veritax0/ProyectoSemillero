@@ -20,7 +20,7 @@ namespace Player
                 _context.AudioPlayer.DieSound();
                 _soundDone = true;
             }
-            HudController.GetInstance().Defeat();
+            GuiController.GetInstance().Defeat();
         }
 
         public void SetContext(PlayerController context)

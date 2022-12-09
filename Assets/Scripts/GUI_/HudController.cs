@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using Player;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GUI_
 {
     public class HudController : MonoBehaviour
     {
+        private static HudController _instance;
+        
         public List<Image> hits;
         public Image sonarCapacityBar;
         public Image runCapacityBar;
@@ -21,18 +22,8 @@ namespace GUI_
         public float hitDecreaseSec = 1;
         
         private int _currentHit;
-        private static HudController _instance;
         private bool _isRemovingHit;
         private float _maxOverload;
-        internal static PlayerMovement PlayerMovement;
-
-        public Text victoryText;
-        public Text defeatText;
-        public Text stoleText;
-        public RectTransform pauseMenu;
-        
-        private bool _restart;
-        private bool _isPause;
 
         private void Awake()
         {
@@ -53,53 +44,8 @@ namespace GUI_
         private void Update()
         {
             if(_isRemovingHit) RemoveAHit();
-            if (Input.GetKeyDown(KeyCode.Escape) && _restart)
-            {
-                SceneManager.LoadScene("Escenario");
-            }
-
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                Pause();
-            }
         }
 
-        private void Pause()
-        {
-            if (_isPause)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                Time.timeScale = 1;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = true;
-                Time.timeScale = 0;
-            }
-            _isPause = !_isPause;
-            pauseMenu.gameObject.SetActive(_isPause);
-            PlayerMovement.enabled = !_isPause;
-        }
-
-        public void Restart()
-        {
-            Time.timeScale = 1;
-            SceneManager.LoadScene("Escenario");
-        } 
-        
-        public void Resume()
-        {
-            Pause();
-        } 
-        
-        public void MainMenu()
-        {
-            Time.timeScale = 1;
-            SceneManager.LoadScene(0);
-        } 
-        
         public void UpdateSonarBar(float value)
         {
             sonarCapacityBar.fillAmount = value / 100;
@@ -167,27 +113,6 @@ namespace GUI_
                     playerStatus.sprite = walkSprite;
                     break;
             }
-        }
-
-        public void Victory()
-        {
-            victoryText.enabled = true;
-            _restart = true;
-        }
-
-        public void Defeat()
-        {
-            defeatText.enabled = true;
-            _restart = true;
-        }
-        
-        public void Stole()
-        {
-            stoleText.enabled = true;
-        }
-        public void NotStole()
-        {
-            stoleText.enabled = false;
         }
     }
 }
