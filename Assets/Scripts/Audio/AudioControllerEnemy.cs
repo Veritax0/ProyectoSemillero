@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
@@ -26,7 +25,7 @@ namespace Audio
         private void Update()
         {
             if(_isAttack) return;
-            if (_isWalk && !_isStep) StartCoroutine(Step());
+            if (_isWalk && !_isStep && Time.timeScale > 0) StartCoroutine(Step());
         }
 
         private IEnumerator Step()

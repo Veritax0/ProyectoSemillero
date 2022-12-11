@@ -14,7 +14,7 @@ namespace Enemies.GunEnemy
         private GameObject _bullet;
         private bool _isAim;
         private float _aimTime;
-        private const float ShootForce = 10;
+        private const float ShootForce = 15;
         public void SetContext(EnemyController context)
         {
             try
