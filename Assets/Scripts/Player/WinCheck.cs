@@ -1,77 +1,67 @@
 using GUI_;
-using Player;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class WinCheck : MonoBehaviour
+namespace Player
 {
-    public GameObject objetivo;
-    public GameObject rutaEscape;
-    private Boolean escape;
-    private PlayerMovement _movement;
-    private Rigidbody _rb;
-
-
-    // Start is called before the first frame update
-    void Start()
+    public class WinCheck : MonoBehaviour
     {
-        rutaEscape.SetActive(false);
-        escape = false;
-        _movement = GetComponent<PlayerMovement>();
-        _rb = GetComponent<Rigidbody>();
-    }
+        public GameObject objetivo;
+        public GameObject rutaEscape;
+        private bool _escape;
+        private PlayerMovement _movement;
+        private Rigidbody _rb;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    private void OnTriggerStay(Collider collision)
-    {
-        if (collision.gameObject.CompareTag("Objective"))
+        // Start is called before the first frame update
+        void Start()
         {
-            Debug.Log("objetivo");
-            HudController.GetInstance().Stole();
-            ObjectiveComplete();
+            rutaEscape.SetActive(false);
+            _escape = false;
+            _movement = GetComponent<PlayerMovement>();
+            _rb = GetComponent<Rigidbody>();
         }
-        if (collision.gameObject.CompareTag("RutaEscape") && escape == true)
+
+        private void OnTriggerStay(Collider collision)
         {
-            Debug.Log("Victoria");
-            Win();
+            if (collision.gameObject.CompareTag("Objective"))
+            {
+                Debug.Log("objetivo");
+                GuiController.GetInstance().Stole();
+                ObjectiveComplete();
+            }
+            if (collision.gameObject.CompareTag("RutaEscape") && _escape)
+            {
+                Debug.Log("Victoria");
+                Win();
+            }
         }
-    }
 
-    private void OnTriggerExit(Collider collision)
-    {
-        if (collision.gameObject.CompareTag("Objective"))
+        private void OnTriggerExit(Collider collision)
         {
-            HudController.GetInstance().NotStole();
+            if (collision.gameObject.CompareTag("Objective"))
+            {
+                GuiController.GetInstance().NotStole();
+            }
         }
-    }
 
-    private void ObjectiveComplete()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        private void ObjectiveComplete()
         {
-            objetivo.SetActive(false);
-            rutaEscape.SetActive(true);
-            Debug.Log("Archivos robados");
-            escape = true;
-            HudController.GetInstance().NotStole();
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                objetivo.SetActive(false);
+                rutaEscape.SetActive(true);
+                Debug.Log("Archivos robados");
+                _escape = true;
+                GuiController.GetInstance().NotStole();
+            }
+        }
+
+        private void Win()
+        {
+            GuiController.GetInstance().Victory();
+            _movement.SetDied();
+            _movement.enabled = false;
+            Destroy(_rb);
         }
     }
-
-    private void Win()
-    {
-        HudController.GetInstance().Victory();
-        _movement.SetDied();
-        _movement.enabled = false;
-        Destroy(_rb);
-    }
-
-    
 }

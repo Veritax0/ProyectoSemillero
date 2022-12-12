@@ -105,7 +105,7 @@ public class ResonanceAudioReverbBakingWindow : EditorWindow {
 #else
     EditorApplication.playmodeStateChanged = OnSceneOrModeSwitch;
 #endif  // UNITY_2017_2_OR_NEWER
-    SceneView.onSceneGUIDelegate += OnSceneGUI;
+    SceneView.duringSceneGui += OnSceneGUI;
   }
 
   void OnDisable() {
@@ -116,7 +116,7 @@ public class ResonanceAudioReverbBakingWindow : EditorWindow {
 #else
     EditorApplication.playmodeStateChanged = null;
 #endif  // UNITY_2017_2_OR_NEWER
-    SceneView.onSceneGUIDelegate -= OnSceneGUI;
+    SceneView.duringSceneGui -= OnSceneGUI;
 
     // Destroy the material mapper updater if not null.
     if (!EditorApplication.isPlaying && materialMapperUpdater != null) {

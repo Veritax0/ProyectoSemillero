@@ -47,6 +47,8 @@ namespace Enemies.GunEnemy
         {
             _agent.SetDestination(_points[_currentPosition].position);
             
+            
+            
             if (_context.IsHit)
             {
                 if (_context.Hit.transform.gameObject.CompareTag("Player")){

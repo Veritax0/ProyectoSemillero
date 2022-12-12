@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,9 +8,10 @@ public class MenuScene : MonoBehaviour
     private float _loopTime;
     private Animator _animator;
     private AudioSource _audioSource;
-    public AnimationClip animation;
+    public new AnimationClip animation;
     public AudioClip audio1;
     public AudioClip audio2;
+    private static readonly int Intro = Animator.StringToHash("intro");
 
     private void Start()
     {
@@ -30,7 +29,7 @@ public class MenuScene : MonoBehaviour
     {
         float loopSec = _loopTime;
         _isPlayScene = true;
-        _animator.SetBool("intro", true);
+        _animator.SetBool(Intro, true);
         _audioSource.clip = audio1;
         _audioSource.Play();
         float audioTime = audio1.length + 2;
@@ -44,7 +43,7 @@ public class MenuScene : MonoBehaviour
         yield return new WaitForSeconds(loopSec > audioTime ? loopSec : audioTime);
         
         _isPlayScene = false;
-        _animator.SetBool("intro", false);
+        _animator.SetBool(Intro, false);
     }
 
 
