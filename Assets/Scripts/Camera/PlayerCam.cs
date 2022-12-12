@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Player
+namespace Camera
 {
     public class PlayerCam : MonoBehaviour
     {
@@ -32,8 +32,8 @@ namespace Player
             _xRotation = Math.Clamp(_xRotation, -amplitudeY, amplitudeY);
             
             //Rotate cam and orientation
-            transform.rotation = Quaternion.Euler(_xRotation, _yRotation, 0);
-            orientation.rotation = Quaternion.Euler(0, _yRotation, 0);
+            transform.rotation = Quaternion.Euler(_xRotation, _yRotation + 90, 0);
+            orientation.rotation = Quaternion.Euler(0, _yRotation + 90, 0);
         }
     }
 }

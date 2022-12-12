@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player
+namespace Camera
 {
     public class MoveCamera : MonoBehaviour
     {

@@ -45,9 +45,10 @@ namespace Enemies.GunEnemy
             _isAim = true;
             _agent.SetDestination(transform.position);
             _context.AudioEnemy.Idle();
-            yield return new WaitForSeconds(_aimTime);
+            Vector3 objPos = _context.objective.transform.position;
+            Vector3 dir = Vector3.Normalize(objPos - _bulletGen.position);
             
-            Vector3 dir = Vector3.Normalize(_pointer.position - _bulletGen.position);
+            yield return new WaitForSeconds(_aimTime);
             Shoot(dir);
             _context.AudioEnemy.Walk();
             _context.ChangeState(_context.GuardState);
