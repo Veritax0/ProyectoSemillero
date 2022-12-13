@@ -11,19 +11,20 @@ namespace Enemies.GunEnemy
     {
         [Header("Guard config")] 
         public Transform pointsParent; 
-        internal List<Transform> Points; //Guard
-        public float minDistanceToChangePoint; //Guard
+        internal List<Transform> Points;
+        public float minDistanceToChangePoint;
     
         [Header("Gun config")]
-        public Transform pointer; //Attack
-        public Transform bulletGen; //Attack
-        public GameObject bullet; //Attack
+        public Transform pointer;
+        public Transform bulletGen;
+        public GameObject bullet;
     
         [Header("Attack config")]
-        public GameObject objective;//Chase
-        public float aimTime; //Attack
-        public float aimDistance; //Chase
-        public float shootDistance = 10f; //Chase
+        public GameObject objective;
+        public float aimTime;
+        public float aimDistance;
+        public float shootDistance = 10f;
+        public float guardRayDistance = 4;
     
         
         internal NavMeshAgent Agent;

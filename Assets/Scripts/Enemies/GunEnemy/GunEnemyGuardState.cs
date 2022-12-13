@@ -22,6 +22,11 @@ namespace Enemies.GunEnemy
         private bool _isAimWalk;
         private static readonly int Aim1 = Animator.StringToHash("Aim");
         private const float AimAroundTime = 3.7f;
+        
+        private bool _isGuardHit;
+        private RaycastHit _guardHit;
+        private float _guardRayDistance;
+        
         public void SetContext(EnemyController context)
         {
             try
@@ -33,6 +38,7 @@ namespace Enemies.GunEnemy
                 _animator = _context.Animator;
                 _aimAroundCor = StartCoroutine(VoidCor());
                 _aimWalkCor = StartCoroutine(VoidCor());
+                _guardRayDistance = _context.guardRayDistance;
                 
                 _context.AudioEnemy.Walk();
             }
@@ -46,20 +52,41 @@ namespace Enemies.GunEnemy
         public void Execute()
         {
             _agent.SetDestination(_points[_currentPosition].position);
-            
-            
+
+            Vector3 pos = transform.position;
+            Vector3 rayDirection = 
+                Vector3.Normalize(_context.objective.transform.position - pos);
+            _isGuardHit = Physics.SphereCast(pos, transform.lossyScale.x / 2, 
+                rayDirection, out _guardHit, _guardRayDistance);
+
+            bool change = false;
             
             if (_context.IsHit)
             {
-                if (_context.Hit.transform.gameObject.CompareTag("Player")){
-                    StopCoroutine(_aimWalkCor);
-                    StopCoroutine(_aimAroundCor);
-                    _context.ChangeState(_context.ChaseState);
-                    _isAimWalk = false;
-                    _changeDestination = false;
-                    return;
+                if (_context.Hit.transform.gameObject.CompareTag("Player"))
+                {
+                    change = true;
                 }
             }
+            
+            if (_isGuardHit)
+            {
+                if (_guardHit.transform.gameObject.CompareTag("Player"))
+                {
+                    change = true;
+                }
+            }
+
+            if (change)
+            {
+                StopCoroutine(_aimWalkCor);
+                StopCoroutine(_aimAroundCor);
+                _context.ChangeState(_context.ChaseState);
+                _isAimWalk = false;
+                _changeDestination = false;
+                return;
+            }
+            
             if (!_isAimWalk)
             {
                 _aimWalkCor = StartCoroutine(AimWalking());
@@ -103,6 +130,14 @@ namespace Enemies.GunEnemy
         private IEnumerator VoidCor()
         {
             yield return new WaitForEndOfFrame();
-        } 
+        }
+
+        private void OnDrawGizmos()
+        {
+            Vector3 pos = transform.position;
+            Vector3 rayDirection = 
+                Vector3.Normalize(_context.objective.transform.position - pos);
+            Gizmos.DrawRay(pos, rayDirection * _guardRayDistance);
+        }
     }
 }

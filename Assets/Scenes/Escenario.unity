@@ -10011,9 +10011,10 @@ MonoBehaviour:
   bulletGen: {fileID: 58351996695748427}
   bullet: {fileID: 5872919267339666250, guid: 6f01ca5792486c24a943ad0fde754851, type: 3}
   objective: {fileID: 3929338023229391927}
-  aimTime: 0.7
+  aimTime: 0.4
   aimDistance: 19
   shootDistance: 10
+  guardRayDistance: 4
 --- !u!82 &2068820926542085840
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11329,8 +11330,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3929338023229391927}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.01, y: 1, z: 29.37}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -27.5, y: 1, z: 29.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11341,7 +11342,7 @@ Transform:
   - {fileID: 7338793902985364853}
   m_Father: {fileID: 0}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &3929338023229391927
 GameObject:
   m_ObjectHideFlags: 0
@@ -12166,9 +12167,10 @@ MonoBehaviour:
   bulletGen: {fileID: 5960958795857003702}
   bullet: {fileID: 5872919267339666250, guid: 6f01ca5792486c24a943ad0fde754851, type: 3}
   objective: {fileID: 3929338023229391927}
-  aimTime: 0.7
+  aimTime: 0.4
   aimDistance: 19
   shootDistance: 10
+  guardRayDistance: 4
 --- !u!136 &5362618133095695550
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13510,14 +13512,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8404411842494258821}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8404411842859603484}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &8404411842494258827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13744,7 +13746,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8404411842859603486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1.5, z: 1}
+  m_LocalPosition: {x: -27.5, y: 1, z: 29.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
