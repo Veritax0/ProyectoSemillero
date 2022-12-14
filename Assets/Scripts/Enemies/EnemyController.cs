@@ -10,5 +10,7 @@ namespace Enemies
         protected internal IEnemyState AttackState;
 
         public abstract void ChangeState(IEnemyState enemyState);
+
+        public abstract void AddRadarPoint();
     }
 }

@@ -1,3 +1,5 @@
+using Enemies;
+using Enemies.BladeEnemy;
 using UnityEngine;
 
 namespace Sonar
@@ -12,6 +14,8 @@ namespace Sonar
             {
                 Debug.Log("colision");
                 Instantiate(scanner, position);
+                EnemyController enemyController = GetComponent<EnemyController>();
+                enemyController.AddRadarPoint();
             }
         }
     }

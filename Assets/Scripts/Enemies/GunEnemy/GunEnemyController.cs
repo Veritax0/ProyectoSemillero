@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Audio;
+using GUI_;
 using Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -50,6 +51,11 @@ namespace Enemies.GunEnemy
         {
             State = enemyState;
             Animator.SetInteger(Aim1, 0);
+        }
+
+        public override void AddRadarPoint()
+        {
+            RadarController.GetInstance().AddGunPoint(transform);
         }
 
         void Start()

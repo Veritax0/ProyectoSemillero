@@ -59,7 +59,7 @@ namespace Audio
         }
 
         private void Update()
-        {
+            {
             if (_isDead || _isHurt) return;
             SetClip();
         }
