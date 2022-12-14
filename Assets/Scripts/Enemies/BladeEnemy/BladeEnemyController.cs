@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Audio;
+using GUI_;
 using Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -80,6 +81,12 @@ namespace Enemies.BladeEnemy
         {
             State = enemyState;
         }
+
+        public override void AddRadarPoint()
+        {
+            RadarController.GetInstance().AddBladePoint(transform);
+        }
+
         private void DoRayCast()
         {
             Vector3 objPos = objective.transform.position;
