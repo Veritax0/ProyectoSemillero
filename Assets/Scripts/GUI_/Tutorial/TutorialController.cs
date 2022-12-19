@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GUI_.Tutorial
@@ -6,7 +8,8 @@ namespace GUI_.Tutorial
     {
         private static TutorialController _instance;
 
-        public TutorialStrategy wasd;
+        public List<TutorialStrategy> strategies;
+        private int _strategyPos = 0;
         private TutorialStrategy _strategy;
         private VoidStrategy _voidStrategy;
 
@@ -24,7 +27,7 @@ namespace GUI_.Tutorial
         void Start()
         {
             _voidStrategy = gameObject.AddComponent<VoidStrategy>();
-            GameObject instance = Instantiate(wasd.gameObject, transform, false);
+            GameObject instance = Instantiate(strategies[_strategyPos].gameObject, transform, false);
             _strategy = instance.GetComponent<TutorialStrategy>();
         }
             
@@ -36,13 +39,26 @@ namespace GUI_.Tutorial
         public void WaitForStrategy()
         {
             _strategy = _voidStrategy;
+            _strategyPos++;
         }
+
+        public void NextStrategy()
+        {
+            StartCoroutine(Next());
+        }
+
+        private IEnumerator Next()
+        {
+            WaitForStrategy();
+            yield return new WaitForSeconds(1);
+            GameObject instance = Instantiate(strategies[_strategyPos].gameObject, transform, false);
+            _strategy = instance.GetComponent<TutorialStrategy>();
+        }
+        
     }
 
     public class VoidStrategy : TutorialStrategy
     {
-        public override void Execute()
-        {
-        }
+        public override void Execute() {}
     }
 }

@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace GUI_.Tutorial
 {
-    public class Wasd : TutorialStrategy
+    public class WasdTuto : TutorialStrategy
     {
-        public WasdBorder wBorder;
-        public WasdBorder aBorder;
-        public WasdBorder sBorder;
-        public WasdBorder dBorder;
+        public Border wBorder;
+        public Border aBorder;
+        public Border sBorder;
+        public Border dBorder;
         
         private Animator _animator;
         private static readonly int Out = Animator.StringToHash("fadeOut");
@@ -22,7 +22,7 @@ namespace GUI_.Tutorial
         private void Start()
         {
             _animator = GetComponent<Animator>();
-            Time.timeScale = 0;
+            StartCoroutine(Freeze());
         }
 
         public override void Execute()
@@ -61,8 +61,14 @@ namespace GUI_.Tutorial
             yield return new WaitForSeconds(1);
             _animator.SetTrigger(Out);
             yield return new WaitForSeconds(2);
-            TutorialController.GetInstance().WaitForStrategy();
+            TutorialController.GetInstance().NextStrategy();
             Destroy(gameObject);
+        }
+
+        private IEnumerator Freeze()
+        {
+            yield return new WaitForSeconds(0.6f);
+            Time.timeScale = 0;
         }
     }
 }

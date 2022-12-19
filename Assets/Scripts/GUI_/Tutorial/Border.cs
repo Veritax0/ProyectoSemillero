@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GUI_.Tutorial
 {
-    public class WasdBorder : MonoBehaviour
+    public class Border : MonoBehaviour
     {
         private Animator _animator;
         private static readonly int DoneTrigger = Animator.StringToHash("done");
