@@ -9,6 +9,7 @@ public class LoreSceneController : MonoBehaviour
     private AudioSource _audioSource;
     private Coroutine _playCor;
     private bool _isSkip;
+    private static readonly int FadeOut = Animator.StringToHash("fadeOut");
 
     private void Start()
     {
@@ -36,7 +37,7 @@ public class LoreSceneController : MonoBehaviour
         _audioSource.clip = narration;
         _audioSource.Play();
         yield return new WaitForSeconds(narration.length);
-        panel.SetBool("fadeOut", true);
+        panel.SetBool(FadeOut, true);
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene("Escenario");
     }
@@ -45,7 +46,7 @@ public class LoreSceneController : MonoBehaviour
     {
         StopCoroutine(_playCor);
         _isSkip = true;
-        panel.SetBool("fadeOut", true);
+        panel.SetBool(FadeOut, true);
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene("Escenario");
     }
