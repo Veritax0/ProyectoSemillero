@@ -50,7 +50,7 @@ namespace GUI_.Tutorial
         private IEnumerator Next()
         {
             WaitForStrategy();
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.3f);
             GameObject instance = Instantiate(strategies[_strategyPos].gameObject, transform, false);
             _strategy = instance.GetComponent<TutorialStrategy>();
         }

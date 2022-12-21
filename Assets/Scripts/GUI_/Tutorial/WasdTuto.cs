@@ -64,11 +64,5 @@ namespace GUI_.Tutorial
             TutorialController.GetInstance().NextStrategy();
             Destroy(gameObject);
         }
-
-        private IEnumerator Freeze()
-        {
-            yield return new WaitForSeconds(0.6f);
-            Time.timeScale = 0;
-        }
     }
 }
